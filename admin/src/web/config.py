@@ -22,6 +22,11 @@ class ProductionConfig(Config):
     MINIO_BUCKET = environ.get("STORAGE_BUCKET", "grupo19")
 
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+    # Supabase installs PostGIS in the "extensions" schema; add it to the search_path
+    # so GeoAlchemy2 geometry types are resolved correctly through the connection pooler.
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {"options": "-c search_path=public,extensions"}
+    }
 
     # Comma-separated list of allowed CORS origins, e.g. https://mi-portal.vercel.app
     CORS_ORIGINS = [o.strip() for o in environ.get("CORS_ORIGINS", "").split(",") if o.strip()]
