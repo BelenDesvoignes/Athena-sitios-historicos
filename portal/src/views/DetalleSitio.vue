@@ -21,7 +21,7 @@
       <div class="main-info-grid">
         <div class="image-container">
           <div class="cover-wrapper">
-            <img :src="site.cover_image?.url || site.cover_image || '/default-cover.jpg'"
+            <img :src="site.cover_image?.url || site.cover_image || '/default.jpg'"
               :alt="site.cover_image?.title || site.name" class="site-cover-image" @click="openByIndex(0)">
             <button class="expand-button cover" @click.stop="openByIndex(0)">🔍</button>
           </div>

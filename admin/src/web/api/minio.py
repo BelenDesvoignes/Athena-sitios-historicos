@@ -10,7 +10,7 @@ def get_site_images(sitio, only_cover=False):
     """
     s3_client = get_s3_client()
     bucket_name = current_app.config["MINIO_BUCKET"]
-    default_url = "/img/default.jpg"
+    default_url = None
 
     if only_cover:
         portada = next((img for img in sitio.imagenes if img.es_portada), None)

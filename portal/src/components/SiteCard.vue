@@ -2,7 +2,7 @@
   <router-link :to="`/sitios/${site.id}`" class="site-card">
     <div class="card-image-container">
       <img 
-        :src="site.image_url || '/default-image.jpg'" 
+        :src="site.image_url || '/default.jpg'"
         :alt="site.image_title || site.name" 
         class="card-image"
       />
