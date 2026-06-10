@@ -32,6 +32,7 @@ def create_app(env="development", static_folder="../../static"):
     # carga la configuracion segun el entorno
 
     allowed_origins = app.config.get("CORS_ORIGINS", [])
+    print(f"[CORS] origins configured: {allowed_origins}", flush=True)
 
     app.config["JWT_SECRET_KEY"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
@@ -39,8 +40,7 @@ def create_app(env="development", static_folder="../../static"):
     if app.config.get("SESSION_TYPE") == "filesystem":
         Session(app)
     CORS(app,
-         origins=allowed_origins,
-         supports_credentials=True,
+         origins=allowed_origins if allowed_origins else "*",
          allow_headers=["Content-Type", "Authorization"],
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
     JWTManager(app)
