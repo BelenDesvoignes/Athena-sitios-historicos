@@ -427,10 +427,12 @@ def edit(id):
             elif not archivos and not imagenes_despues_eliminacion:
                 error = "Debes tener al menos una imagen en el sitio. No puedes eliminar todas las imágenes sin agregar nuevas."
             elif archivos:
-                portada_idx = -1 
-                
+                portada_idx = -1
+
                 if portada_valor.startswith("nueva-"):
                     portada_idx = int(portada_valor.split("-")[1])
+                elif not portada_valor and not any(img.es_portada for img in imagenes_despues_eliminacion):
+                    portada_idx = 0
                 if portada_idx != -1:
                     db.session.query(Imagen).filter_by(sitio_id=sitio.id).update(
                         {Imagen.es_portada: False},
