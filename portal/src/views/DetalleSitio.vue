@@ -202,57 +202,38 @@
       <button class="modal-nav right" @click.stop="nextImage" aria-label="Siguiente">▶</button>
     </div>
 
-    <!-- Modal de Aviso de Login/Redirección (AHORA SOLO AVISA) -->
-    <div v-if="showLoginPrompt" class="login-modal-overlay">
-        <div class="login-modal-content">
-            <h3 class="text-xl font-bold">Inicia Sesión Requerido</h3>
-            <p class="mt-2 text-gray-700 font-bold">
-                Para marcar este sitio como favorito, necesitas iniciar sesión.
-            </p>
-            <p class="mt-2 text-gray-700 text-sm">
-                Por favor, utiliza el botón "Iniciar Sesión con Google".
-            </p>
-            <div class="mt-4 flex justify-end gap-3">  <!-- Este botón ahora solo cierra el modal, sin intentar redireccionar -->
-                <button @click="showLoginPrompt = false" class="btn-primary">
-                    Entendido
-                </button>
+    <div v-if="showLoginPrompt" class="login-modal-overlay" @click.self="showLoginPrompt = false">
+        <div class="login-modal-box">
+            <div class="login-modal-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
             </div>
-        </div>
-    </div>
-
-
-     <div v-if="showLoginPrompt" class="login-modal-overlay">
-        <div class="login-modal-content">
-            <h3 class="text-xl font-bold">Inicia Sesión Requerido</h3>
-            <p class="mt-2 text-gray-700 font-bold">
-                Para marcar este sitio como favorito, necesitas iniciar sesión.
-            </p>
-            <p class="mt-2 text-gray-700 text-sm">
-                Por favor, utiliza el botón "Iniciar Sesión con Google".
-            </p>
-            <div class="mt-4 flex justify-end gap-3">  <!-- Este botón ahora solo cierra el modal, sin intentar redireccionar -->
-                <button @click="showLoginPrompt = false" class="btn-primary">
-                    Entendido
-                </button>
+            <h3 class="login-modal-title">Iniciá sesión para continuar</h3>
+            <p class="login-modal-desc">Para agregar este sitio a tus favoritos necesitás iniciar sesión con Google.</p>
+            <div class="login-modal-google">
+                <GoogleLogin :callback="handleModalLogin" :buttonConfig="{ type: 'standard', theme: 'filled_blue', size: 'large', text: 'signin_with', width: 260 }" />
             </div>
+            <button @click="showLoginPrompt = false" class="login-modal-dismiss">Cancelar</button>
         </div>
     </div>
   </div>
 
-   <div v-if="showLoginPromptReseña" class="login-modal-overlay">
-        <div class="login-modal-content">
-            <h3 class="text-xl font-bold">Inicia Sesión Requerido</h3>
-            <p class="mt-2 text-gray-700 font-bold">
-                Para escribir una reseña, necesitas iniciar sesión.
-            </p>
-            <p class="mt-2 text-gray-700 text-sm">
-                Por favor, utiliza el botón "Iniciar Sesión con Google".
-            </p>
-            <div class="mt-4 flex justify-end gap-3">  <!-- Este botón ahora solo cierra el modal, sin intentar redireccionar -->
-                <button @click="showLoginPromptReseña = false" class="btn-primary">
-                    Entendido
-                </button>
+  <div v-if="showLoginPromptReseña" class="login-modal-overlay" @click.self="showLoginPromptReseña = false">
+        <div class="login-modal-box">
+            <div class="login-modal-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
             </div>
+            <h3 class="login-modal-title">Iniciá sesión para escribir una reseña</h3>
+            <p class="login-modal-desc">Para compartir tu opinión sobre este sitio necesitás iniciar sesión con Google.</p>
+            <div class="login-modal-google">
+                <GoogleLogin :callback="handleModalLogin" :buttonConfig="{ type: 'standard', theme: 'filled_blue', size: 'large', text: 'signin_with', width: 260 }" />
+            </div>
+            <button @click="showLoginPromptReseña = false" class="login-modal-dismiss">Cancelar</button>
         </div>
     </div>
 </template>
@@ -263,6 +244,7 @@ import { parseQuery, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import BackButton from "@/components/BackButton.vue";
+import { GoogleLogin } from 'vue3-google-login';
 import "leaflet/dist/leaflet.css";
 
 const reviewsFeatureDisabled = ref(false);
@@ -314,7 +296,15 @@ const currentPage = ref(1);
 const totalPages = ref(1);
 const perPage = 25;
 const showReviewModal = ref(false);
-const showLoginPromptReseña = ref(false); 
+const showLoginPromptReseña = ref(false);
+
+const handleModalLogin = async (response) => {
+    const success = await authStore.loginWithGoogle(response);
+    if (success) {
+        showLoginPrompt.value = false;
+        showLoginPromptReseña.value = false;
+    }
+};
 const isModalOpen = ref(false);
 const currentIndex = ref(0);
 const imagesList = ref([]);
@@ -828,30 +818,78 @@ onBeforeUnmount(() => {
 /* Login Modal */
 .login-modal-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(17,24,39,0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9990;
+  padding: 20px;
+}
+
+.login-modal-box {
+  background: white;
+  border-radius: 20px;
+  padding: 40px 32px 28px;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: modal-pop 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.92) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.login-modal-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--color-primary-light, #DBEAFE);
+  color: var(--color-primary, #1E3A8A);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.login-modal-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary, #111827);
+  margin: 0 0 10px;
+}
+
+.login-modal-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary, #6B7280);
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+.login-modal-google {
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 9990;
-  backdrop-filter: blur(2px);
+  margin-bottom: 14px;
 }
 
-.login-modal-content {
-  background: white;
-  padding: 28px 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-  max-width: 400px;
-  width: 90%;
+.login-modal-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-muted, #9CA3AF);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: color 0.15s;
 }
 
-.login-modal-content h3 {
-  font-family: 'Nunito', sans-serif;
-  color: var(--color-primary, #1E3A8A);
-  margin-top: 0;
-  font-weight: 700;
+.login-modal-dismiss:hover {
+  color: var(--text-secondary, #6B7280);
 }
 
 .btn-primary {

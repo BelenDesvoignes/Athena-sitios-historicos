@@ -58,14 +58,6 @@ const logout = () => {
         <span class="app-title" @click="router.push('/')">Athena</span>
       </div>
 
-      <nav class="header-nav">
-        <button @click="router.push('/')" class="nav-link-btn">Inicio</button>
-        <button @click="router.push('/sitios')" class="nav-link-btn">Sitios</button>
-        <template v-if="authStore.isLoggedIn">
-          <button @click="router.push('/sitios?favorites=true')" class="nav-link-btn">Favoritos</button>
-        </template>
-      </nav>
-
       <div class="header-right">
         <div v-if="authStore.isLoggedIn" class="user-avatar-wrapper">
           <img
@@ -179,31 +171,6 @@ const logout = () => {
   font-weight: 800;
   color: white;
   letter-spacing: -0.3px;
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-grow: 1;
-  padding-left: 16px;
-}
-
-.nav-link-btn {
-  background: none;
-  border: none;
-  color: rgba(255,255,255,0.85);
-  font-size: 0.95rem;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.nav-link-btn:hover {
-  background-color: rgba(255,255,255,0.15);
-  color: white;
 }
 
 .header-right {
@@ -334,12 +301,4 @@ const logout = () => {
   backdrop-filter: blur(2px);
 }
 
-@media (max-width: 640px) {
-  .header-nav {
-    display: none;
-  }
-  .app-title {
-    display: none;
-  }
-}
 </style>
