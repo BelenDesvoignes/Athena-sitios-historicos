@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import BackButton from '@/components/BackButton.vue'
@@ -70,8 +70,8 @@ const logout = () => {
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--color-primary, #0D9488);
-  box-shadow: 0 4px 12px rgba(13,148,136,0.2);
+  border: 3px solid var(--color-primary, #1E3A8A);
+  box-shadow: 0 4px 12px rgba(30,58,138,0.2);
 }
 
 .profile-name {
@@ -104,7 +104,7 @@ const logout = () => {
 .profile-btn {
   width: 100%;
   max-width: 300px;
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   color: white;
   padding: 13px 20px;
   font-size: 0.97rem;
@@ -121,7 +121,7 @@ const logout = () => {
 .profile-btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  background-color: var(--color-primary-dark, #0F766E);
+  background-color: var(--color-primary-dark, #172554);
 }
 
 .logout-btn {

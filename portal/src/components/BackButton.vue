@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <button @click="goBack" class="back-btn">
     ⬅️ Volver
   </button>
@@ -44,8 +44,8 @@ export default {
 }
 
 .back-btn:hover {
-  background-color: var(--color-primary-light, #CCFBF1);
-  color: var(--color-primary-dark, #0F766E);
-  border-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary-light, #DBEAFE);
+  color: var(--color-primary-dark, #172554);
+  border-color: var(--color-primary, #1E3A8A);
 }
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="favoritos-page">
     <BackButton />
     <header class="page-header">
@@ -122,7 +122,7 @@ onMounted(() => {
   bottom: -2px;
   width: 48px;
   height: 2px;
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
 }
 
 .page-header h1 {
@@ -154,8 +154,8 @@ onMounted(() => {
 }
 
 .loading-box {
-  color: var(--color-primary, #0D9488);
-  background-color: var(--color-primary-light, #CCFBF1);
+  color: var(--color-primary, #1E3A8A);
+  background-color: var(--color-primary-light, #DBEAFE);
   font-style: italic;
 }
 
@@ -178,7 +178,7 @@ onMounted(() => {
 }
 
 .error-message a {
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
   font-weight: bold;
 }
 </style>

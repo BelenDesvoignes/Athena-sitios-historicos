@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="filter-controls-wrapper">
     <div class="filter-header" @click="isFiltersOpen = !isFiltersOpen">
       <h3>
@@ -251,7 +251,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
 }
 
 .toggle-icon {
@@ -311,8 +311,8 @@ onMounted(() => {
 
 .input-filtro:focus,
 .select-filtro:focus {
-  border-color: var(--color-primary, #0D9488);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+  border-color: var(--color-primary, #1E3A8A);
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
 }
 
 .tag-filter-group {
@@ -361,15 +361,15 @@ onMounted(() => {
 }
 
 .tag-checkbox:hover {
-  border-color: var(--color-primary, #0D9488);
-  color: var(--color-primary, #0D9488);
-  background-color: var(--color-primary-light, #CCFBF1);
+  border-color: var(--color-primary, #1E3A8A);
+  color: var(--color-primary, #1E3A8A);
+  background-color: var(--color-primary-light, #DBEAFE);
 }
 
 .tag-checkbox.is-active,
 .tag-checkbox input:checked ~ * {
-  background-color: var(--color-primary, #0D9488);
-  border-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
+  border-color: var(--color-primary, #1E3A8A);
   color: white;
 }
 

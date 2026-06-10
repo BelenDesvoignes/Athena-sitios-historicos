@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="reviews-page">
     <BackButton />
     <header class="page-header">
@@ -329,7 +329,7 @@ onMounted(() => {
   bottom: -2px;
   width: 48px;
   height: 2px;
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
 }
 
 .page-header h1 {
@@ -532,8 +532,8 @@ onMounted(() => {
 }
 
 .input-select:focus, .input-textarea:focus {
-  border-color: var(--color-primary, #0D9488);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+  border-color: var(--color-primary, #1E3A8A);
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
 }
 
 .review-modal-footer {
@@ -545,7 +545,7 @@ onMounted(() => {
 
 .primary-btn {
   padding: 10px 20px;
-  background: var(--color-primary, #0D9488);
+  background: var(--color-primary, #1E3A8A);
   color: white;
   border: none;
   border-radius: var(--radius-sm, 8px);
@@ -555,7 +555,7 @@ onMounted(() => {
   transition: background 0.2s;
 }
 
-.primary-btn:hover { background: var(--color-primary-dark, #0F766E); }
+.primary-btn:hover { background: var(--color-primary-dark, #172554); }
 
 .secondary-btn {
   padding: 10px 20px;
@@ -602,8 +602,8 @@ onMounted(() => {
 .modal-delete:hover { background: #FEE2E2; }
 
 .loading-box {
-  color: var(--color-primary, #0D9488);
-  background-color: var(--color-primary-light, #CCFBF1);
+  color: var(--color-primary, #1E3A8A);
+  background-color: var(--color-primary-light, #DBEAFE);
   font-style: italic;
 }
 
@@ -639,7 +639,7 @@ onMounted(() => {
 
 .page-button {
   padding: 8px 16px;
-  background: var(--color-primary, #0D9488);
+  background: var(--color-primary, #1E3A8A);
   color: white;
   border: none;
   border-radius: var(--radius-sm, 8px);
@@ -655,7 +655,7 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-.page-button:not(:disabled):hover { background: var(--color-primary-dark, #0F766E); }
+.page-button:not(:disabled):hover { background: var(--color-primary-dark, #172554); }
 
 .reviews-disabled-msg {
   text-align: center;

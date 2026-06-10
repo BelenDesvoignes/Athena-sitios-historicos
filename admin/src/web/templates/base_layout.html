@@ -26,7 +26,7 @@
         }
 
         #sidebarMenu {
-            background-color: #0F766E !important;
+            background-color: #172554 !important;
             min-height: calc(100vh - 60px);
             width: 240px;
             flex-shrink: 0;
@@ -48,7 +48,7 @@
 </head>
 <body>
 
-    <header class="navbar navbar-dark" style="background-color:#0D9488; min-height:60px; box-shadow:0 2px 8px rgba(13,148,136,0.25);" role="banner">
+    <header class="navbar navbar-dark" style="background-color:#1E3A8A; min-height:60px; box-shadow:0 2px 8px rgba(30,58,138,0.25);" role="banner">
         <div class="container-fluid">
             {% if 'user_id' in session %}
             <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Mostrar/Ocultar menú lateral">
@@ -57,7 +57,6 @@
             {% endif %}
 
             <a class="navbar-brand text-white me-auto d-flex align-items-center gap-2" href="#">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo de Athena" style="height:36px; filter:brightness(0) invert(1);" aria-hidden="true">
                 <span style="font-family:'Nunito',sans-serif; font-size:1.3rem; font-weight:800;">Athena</span>
                 <span style="font-size:0.75rem; opacity:0.7; font-weight:400; margin-left:2px;">Admin</span>
             </a>
@@ -68,7 +67,7 @@
                     <button class="btn dropdown-toggle text-white" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; border-radius:8px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% if g.user %}{{ g.user.nombre }}{% else %}Cuenta{% endif %}
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" style="background:#0F766E; border:1px solid rgba(255,255,255,0.1); border-radius:8px;">
+                    <ul class="dropdown-menu dropdown-menu-end" style="background:#172554; border:1px solid rgba(255,255,255,0.1); border-radius:8px;">
                         <li><a class="dropdown-item" style="color:rgba(255,255,255,0.9);" href="{{ url_for('user_admin.profile') }}">Ver perfil</a></li>
                         <li><hr class="dropdown-divider" style="border-color:rgba(255,255,255,0.15)"></li>
                         <li><a class="dropdown-item" style="color:rgba(255,255,255,0.9);" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>

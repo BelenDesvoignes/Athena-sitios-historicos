@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 
 {% block content %}
 <div style="display:flex; align-items:center; justify-content:center; min-height:calc(100vh - 120px); padding:20px;">
     <div style="background:white; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.15); width:100%; max-width:420px; overflow:hidden;">
 
         <!-- Header -->
-        <div style="background:#0D9488; padding:28px 32px 24px; text-align:center;">
+        <div style="background:#1E3A8A; padding:28px 32px 24px; text-align:center;">
             <div style="font-family:'Nunito',sans-serif; font-size:1.6rem; font-weight:800; color:white; margin-bottom:4px;">
                 Athena Admin
             </div>
@@ -29,7 +29,7 @@
                         placeholder="tucorreo@ejemplo.com"
                         required
                         style="background:white; border:1px solid #E5E7EB; border-radius:8px; padding:10px 14px; font-size:0.95rem; width:100%; outline:none; transition:border-color 0.2s;"
-                        onfocus="this.style.borderColor='#0D9488'; this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.12)'"
+                        onfocus="this.style.borderColor='#1E3A8A'; this.style.boxShadow='0 0 0 3px rgba(30,58,138,0.12)'"
                         onblur="this.style.borderColor='#E5E7EB'; this.style.boxShadow='none'"
                     >
                 </div>
@@ -45,7 +45,7 @@
                         placeholder="••••••••"
                         required
                         style="background:white; border:1px solid #E5E7EB; border-radius:8px; padding:10px 14px; font-size:0.95rem; width:100%; outline:none; transition:border-color 0.2s;"
-                        onfocus="this.style.borderColor='#0D9488'; this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.12)'"
+                        onfocus="this.style.borderColor='#1E3A8A'; this.style.boxShadow='0 0 0 3px rgba(30,58,138,0.12)'"
                         onblur="this.style.borderColor='#E5E7EB'; this.style.boxShadow='none'"
                     >
                 </div>
@@ -58,9 +58,9 @@
 
                 <button
                     type="submit"
-                    style="width:100%; background:#0D9488; color:white; border:none; border-radius:8px; padding:12px; font-size:1rem; font-weight:600; cursor:pointer; transition:background-color 0.2s;"
-                    onmouseover="this.style.background='#0F766E'"
-                    onmouseout="this.style.background='#0D9488'"
+                    style="width:100%; background:#1E3A8A; color:white; border:none; border-radius:8px; padding:12px; font-size:1rem; font-weight:600; cursor:pointer; transition:background-color 0.2s;"
+                    onmouseover="this.style.background='#172554'"
+                    onmouseout="this.style.background='#1E3A8A'"
                 >
                     Acceder
                 </button>
@@ -68,7 +68,7 @@
 
             <div style="text-align:center; margin-top:20px; padding-top:18px; border-top:1px solid #F3F4F6;">
                 <p style="font-size:0.88rem; color:#6B7280; margin-bottom:8px;">¿No tenés una cuenta?</p>
-                <a href="{{ url_for('user_admin.register') }}" style="color:#0D9488; font-weight:600; font-size:0.9rem; text-decoration:none;">
+                <a href="{{ url_for('user_admin.register') }}" style="color:#1E3A8A; font-weight:600; font-size:0.9rem; text-decoration:none;">
                     Registrate aquí →
                 </a>
             </div>

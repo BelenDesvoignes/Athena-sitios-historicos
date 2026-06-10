@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="listado-sitios-page">
 
     <header>
@@ -302,12 +302,12 @@ h1 {
 }
 
 .map-toggle-button {
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   color: white;
 }
 
 .map-toggle-button:hover, .map-toggle-button.btn-active {
-  background-color: var(--color-primary-dark, #0F766E);
+  background-color: var(--color-primary-dark, #172554);
 }
 
 .clear-filters-button {
@@ -338,7 +338,7 @@ h1 {
 }
 
 .pagination-button {
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   color: white;
   border: none;
   padding: 9px 18px;
@@ -356,7 +356,7 @@ h1 {
 }
 
 .pagination-button:not(:disabled):hover {
-  background-color: var(--color-primary-dark, #0F766E);
+  background-color: var(--color-primary-dark, #172554);
 }
 
 .modal-overlay {

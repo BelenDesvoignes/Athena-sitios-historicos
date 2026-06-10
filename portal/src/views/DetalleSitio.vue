@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="site-detail-page">
     <div v-if="isLoading" class="status-message">
       Cargando detalles del sitio...
@@ -849,13 +849,13 @@ onBeforeUnmount(() => {
 
 .login-modal-content h3 {
   font-family: 'Nunito', sans-serif;
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
   margin-top: 0;
   font-weight: 700;
 }
 
 .btn-primary {
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   color: white;
   padding: 9px 18px;
   border-radius: 8px;
@@ -864,7 +864,7 @@ onBeforeUnmount(() => {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.btn-primary:hover { background-color: var(--color-primary-dark, #0F766E); }
+.btn-primary:hover { background-color: var(--color-primary-dark, #172554); }
 
 .btn-cancel {
   background-color: var(--surface-2, #F3F4F6);
@@ -901,8 +901,8 @@ onBeforeUnmount(() => {
 .rating-badge {
   display: inline-block;
   margin-top: 8px;
-  background: var(--color-primary-light, #CCFBF1);
-  color: var(--color-primary-dark, #0F766E);
+  background: var(--color-primary-light, #DBEAFE);
+  color: var(--color-primary-dark, #172554);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.88rem;
@@ -961,9 +961,9 @@ onBeforeUnmount(() => {
 .page-button:hover { background-color: var(--border, #E5E7EB); }
 
 .page-button.active {
-  background-color: var(--color-primary-light, #CCFBF1);
-  border-color: var(--color-primary, #0D9488);
-  color: var(--color-primary-dark, #0F766E);
+  background-color: var(--color-primary-light, #DBEAFE);
+  border-color: var(--color-primary, #1E3A8A);
+  color: var(--color-primary-dark, #172554);
   font-weight: 600;
 }
 
@@ -991,7 +991,7 @@ onBeforeUnmount(() => {
 }
 
 .login-btn {
-  background: var(--color-primary, #0D9488);
+  background: var(--color-primary, #1E3A8A);
   color: white;
   padding: 10px 20px;
   border: none;
@@ -1001,7 +1001,7 @@ onBeforeUnmount(() => {
   font-weight: 600;
   transition: background 0.2s, transform 0.1s;
 }
-.login-btn:hover { background: var(--color-primary-dark, #0F766E); }
+.login-btn:hover { background: var(--color-primary-dark, #172554); }
 .login-btn:active { transform: scale(0.97); }
 
 .description-section { padding: 0; }
@@ -1015,8 +1015,8 @@ onBeforeUnmount(() => {
 
 .tag-badge {
   display: inline-block;
-  background-color: var(--color-primary-light, #CCFBF1);
-  color: var(--color-primary-dark, #0F766E);
+  background-color: var(--color-primary-light, #DBEAFE);
+  color: var(--color-primary-dark, #172554);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.83rem;
@@ -1027,7 +1027,7 @@ onBeforeUnmount(() => {
   transition: background 0.15s;
 }
 
-.tag-badge:hover { background-color: var(--color-primary, #0D9488); color: white; }
+.tag-badge:hover { background-color: var(--color-primary, #1E3A8A); color: white; }
 
 /* Favorite button */
 .action-buttons { margin-top: 20px; }
@@ -1048,8 +1048,8 @@ onBeforeUnmount(() => {
 }
 
 .favorite-button:hover {
-  border-color: var(--color-primary, #0D9488);
-  color: var(--color-primary, #0D9488);
+  border-color: var(--color-primary, #1E3A8A);
+  color: var(--color-primary, #1E3A8A);
   transform: translateY(-1px);
 }
 
@@ -1105,14 +1105,14 @@ onBeforeUnmount(() => {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 2px solid var(--color-primary, #0D9488);
+  border: 2px solid var(--color-primary, #1E3A8A);
   background-color: white;
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
   font-size: 0.9rem;
 }
 
 .write-review-btn:hover {
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   color: white;
   transform: translateY(-1px);
 }
@@ -1195,8 +1195,8 @@ onBeforeUnmount(() => {
 
 .input-select:focus,
 .input-textarea:focus {
-  border-color: var(--color-primary, #0D9488);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+  border-color: var(--color-primary, #1E3A8A);
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
 }
 
 .review-modal-footer {
@@ -1207,7 +1207,7 @@ onBeforeUnmount(() => {
 }
 
 .primary-btn {
-  background: var(--color-primary, #0D9488);
+  background: var(--color-primary, #1E3A8A);
   color: white;
   padding: 10px 20px;
   border: none;
@@ -1217,7 +1217,7 @@ onBeforeUnmount(() => {
   font-size: 0.9rem;
   transition: background 0.2s;
 }
-.primary-btn:hover { background: var(--color-primary-dark, #0F766E); }
+.primary-btn:hover { background: var(--color-primary-dark, #172554); }
 
 .secondary-btn {
   background: var(--surface-2, #F3F4F6);
@@ -1379,7 +1379,7 @@ onBeforeUnmount(() => {
 .ver-mas-btn {
   margin-top: 10px;
   background: none;
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
@@ -1388,7 +1388,7 @@ onBeforeUnmount(() => {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.ver-mas-btn:hover { color: var(--color-primary-dark, #0F766E); }
+.ver-mas-btn:hover { color: var(--color-primary-dark, #172554); }
 
 .reviews-disabled-msg {
   padding: 12px 16px;

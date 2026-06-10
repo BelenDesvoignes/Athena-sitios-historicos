@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
@@ -89,7 +89,7 @@ const performSearch = () => {
 /* Hero */
 .hero-section {
   position: relative;
-  background: linear-gradient(135deg, var(--color-primary-dark, #0F766E) 0%, var(--color-primary, #0D9488) 50%, #14B8A6 100%);
+  background: linear-gradient(135deg, var(--color-primary-dark, #172554) 0%, var(--color-primary, #1E3A8A) 50%, #3B82F6 100%);
   padding: 72px 24px 80px;
   overflow: hidden;
   text-align: center;

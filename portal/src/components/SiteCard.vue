@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <router-link :to="`/sitios/${site.id}`" class="site-card">
     <div class="card-image-container">
       <img
@@ -64,7 +64,7 @@ const conservationClass = computed(() => {
 .site-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--color-primary, #0D9488);
+  border-color: var(--color-primary, #1E3A8A);
 }
 
 .card-image-container {
@@ -141,7 +141,7 @@ const conservationClass = computed(() => {
 }
 
 .badge-excellent { background-color: #D1FAE5; color: #065F46; }
-.badge-good      { background-color: #CCFBF1; color: #0F766E; }
+.badge-good      { background-color: #DBEAFE; color: #172554; }
 .badge-regular   { background-color: #FEF3C7; color: #92400E; }
 .badge-bad       { background-color: #FEE2E2; color: #991B1B; }
 .badge-default   { background-color: var(--surface-2, #F3F4F6); color: var(--text-secondary, #6B7280); }
@@ -154,8 +154,8 @@ const conservationClass = computed(() => {
 }
 
 .tag {
-  background: var(--color-primary-light, #CCFBF1);
-  color: var(--color-primary-dark, #0F766E);
+  background: var(--color-primary-light, #DBEAFE);
+  color: var(--color-primary-dark, #172554);
   padding: 3px 8px;
   border-radius: 20px;
   font-size: 0.78rem;

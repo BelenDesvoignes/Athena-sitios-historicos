@@ -1,7 +1,7 @@
 /* ============================
    ATHENA ADMIN — Design System
    Style 3: Vivo/Geográfico
-   Colors: Teal primary, Coral accent, White bg
+   Colors: Navy primary, Coral accent, White bg
    Fonts: Nunito (titles) + Inter (body)
    ============================*/
 
@@ -9,9 +9,9 @@
 
 /* --- CSS variables --- */
 :root {
-  --color-primary:       #0D9488;
-  --color-primary-dark:  #0F766E;
-  --color-primary-light: #CCFBF1;
+  --color-primary:       #1E3A8A;
+  --color-primary-dark:  #172554;
+  --color-primary-light: #DBEAFE;
   --color-accent:        #E8613C;
   --bg:                  #FFFFFF;
   --surface:             #F9FAFB;
@@ -58,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
 .navbar.navbar-dark {
   background-color: var(--color-primary) !important;
   min-height: var(--header-h);
-  box-shadow: 0 2px 8px rgba(13,148,136,0.25);
+  box-shadow: 0 2px 8px rgba(30,58,138,0.25);
   border-bottom: none !important;
 }
 
@@ -208,7 +208,7 @@ main {
 .form-control:focus,
 .form-select:focus {
   border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.12) !important;
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.12) !important;
   outline: none !important;
   background-color: white !important;
 }
@@ -340,7 +340,7 @@ main {
 /* --- ALERTS --- */
 .alert-info {
   background-color: var(--color-primary-light) !important;
-  border-color: #99F6E4 !important;
+  border-color: #BFDBFE !important;
   color: var(--color-primary-dark) !important;
 }
 
@@ -444,7 +444,7 @@ main {
 .flash-success { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
 .flash-danger  { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
 .flash-warning { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
-.flash-info    { background: var(--color-primary-light); color: var(--color-primary-dark); border: 1px solid #99F6E4; }
+.flash-info    { background: var(--color-primary-light); color: var(--color-primary-dark); border: 1px solid #BFDBFE; }
 .flash-neutral { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); }
 
 /* --- STAT CARDS (home dashboard) --- */

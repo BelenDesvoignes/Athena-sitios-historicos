@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 <section class="featured-section">
   <header class="section-header">
     <h2 class="section-title">{{ title }}</h2>
@@ -131,7 +131,7 @@ onMounted(() => {
   bottom: -2px;
   width: 48px;
   height: 2px;
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   border-radius: 1px;
 }
 
@@ -145,14 +145,14 @@ onMounted(() => {
 
 .btn-ver-todos {
   text-decoration: none;
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
   font-size: 0.9rem;
   font-weight: 600;
   transition: color 0.15s;
 }
 
 .btn-ver-todos:hover {
-  color: var(--color-primary-dark, #0F766E);
+  color: var(--color-primary-dark, #172554);
 }
 
 .site-list {
@@ -169,8 +169,8 @@ onMounted(() => {
 }
 
 .loading-pulse {
-  color: var(--color-primary, #0D9488);
-  background-color: var(--color-primary-light, #CCFBF1);
+  color: var(--color-primary, #1E3A8A);
+  background-color: var(--color-primary-light, #DBEAFE);
   font-style: italic;
 }
 

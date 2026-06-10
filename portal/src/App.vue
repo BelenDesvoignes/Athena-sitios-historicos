@@ -55,7 +55,6 @@ const logout = () => {
       </div>
 
       <div class="header-center">
-        <img src="@/assets/athena-logo.png" alt="Athena" class="app-logo" @click="router.push('/')" />
         <span class="app-title" @click="router.push('/')">Athena</span>
       </div>
 
@@ -129,7 +128,7 @@ const logout = () => {
   align-items: center;
   padding: 0 24px;
   height: 64px;
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
   box-shadow: 0 2px 8px rgba(13,148,136,0.3);
   position: sticky;
   top: 0;
@@ -255,7 +254,7 @@ const logout = () => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 16px;
-  background-color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary, #1E3A8A);
 }
 
 .sidebar-brand {
@@ -312,7 +311,7 @@ const logout = () => {
 
 .sidebar-link:hover {
   background-color: var(--surface, #F9FAFB);
-  color: var(--color-primary, #0D9488);
+  color: var(--color-primary, #1E3A8A);
 }
 
 .logout-link {
