@@ -32,17 +32,13 @@ def create_app(env="development", static_folder="../../static"):
     app.config.from_object(config[env])
     # carga la configuracion segun el entorno
 
-    allowed_origins = ["https://grupo19.proyecto2025.linti.unlp.edu.ar"]
-    if env == "development":
-        # Nota: Usamos http y el puerto de tu frontend (5173)
-        allowed_origins.append("http://localhost:5173")
-        allowed_origins.append("http://127.0.0.1:5173")
+    allowed_origins = app.config.get("CORS_ORIGINS", [])
 
     app.config["JWT_SECRET_KEY"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=3600)
-    #inicializar la session
-    Session(app)
+    if app.config.get("SESSION_TYPE") == "filesystem":
+        Session(app)
     CORS(app, resources={
     r"/*": {
         "origins": allowed_origins,

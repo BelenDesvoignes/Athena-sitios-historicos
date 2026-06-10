@@ -1,6 +1,5 @@
-from minio import Minio
-from datetime import timedelta
 from flask import current_app
+from src.web.storage import get_s3_client
 
 
 def get_site_images(sitio, only_cover=False):
@@ -9,22 +8,20 @@ def get_site_images(sitio, only_cover=False):
     Si only_cover=True, solo devuelve la portada.
     Retorna (cover_url, cover_title, lista_de_imagenes)
     """
-    minio_client = Minio(
-        endpoint=current_app.config["MINIO_SERVER"],
-        access_key=current_app.config["MINIO_ACCESS_KEY"],
-        secret_key=current_app.config["MINIO_SECRET_KEY"],
-        secure=current_app.config["MINIO_SECURE"]
-    )
+    s3_client = get_s3_client()
     bucket_name = current_app.config["MINIO_BUCKET"]
-
     default_url = "/img/default.jpg"
 
     if only_cover:
         portada = next((img for img in sitio.imagenes if img.es_portada), None)
         if portada:
             try:
-                cover_url = minio_client.presigned_get_object(bucket_name, portada.ruta, expires=timedelta(hours=2))
-            except:
+                cover_url = s3_client.generate_presigned_url(
+                    'get_object',
+                    Params={'Bucket': bucket_name, 'Key': portada.ruta},
+                    ExpiresIn=7200,
+                )
+            except Exception:
                 cover_url = default_url
             cover_title = portada.titulo
         else:
@@ -35,8 +32,12 @@ def get_site_images(sitio, only_cover=False):
     imagenes_data = []
     for img in sitio.imagenes:
         try:
-            image_url = minio_client.presigned_get_object(bucket_name, img.ruta, expires=timedelta(hours=2))
-        except:
+            image_url = s3_client.generate_presigned_url(
+                'get_object',
+                Params={'Bucket': bucket_name, 'Key': img.ruta},
+                ExpiresIn=7200,
+            )
+        except Exception:
             image_url = default_url
 
         imagenes_data.append({

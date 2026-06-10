@@ -1,10 +1,7 @@
-# Archivo para manejar distintos ambientes de prueba
-# le dice  database.py a que bd conectarse
 import os
 from os import environ
 
 from src.core.database import db as main_db
-
 
 
 class Config:
@@ -16,21 +13,26 @@ class Config:
 
 
 class ProductionConfig(Config):
-    MINIO_SERVER = environ.get("MINIO_SERVER")
-    MINIO_ACCESS_KEY = environ.get("MINIO_ACCESS_KEY")
-    MINIO_SECRET_KEY = environ.get("MINIO_SECRET_KEY")
-    MINIO_SECURE = True
-    MINIO_BUCKET = "grupo19"
+    SECRET_KEY = environ.get("SECRET_KEY", "change-me-in-production")
+    SESSION_TYPE = "cookie"
+
+    STORAGE_ENDPOINT_URL = environ.get("STORAGE_ENDPOINT_URL")
+    MINIO_ACCESS_KEY = environ.get("STORAGE_ACCESS_KEY")
+    MINIO_SECRET_KEY = environ.get("STORAGE_SECRET_KEY")
+    MINIO_BUCKET = environ.get("STORAGE_BUCKET", "grupo19")
+
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+
+    # Comma-separated list of allowed CORS origins, e.g. https://mi-portal.vercel.app
+    CORS_ORIGINS = [o.strip() for o in environ.get("CORS_ORIGINS", "").split(",") if o.strip()]
 
 
 class DevelopmentConfig(Config):
-    MINIO_SERVER = "localhost:9000"
+    STORAGE_ENDPOINT_URL = "http://localhost:9000"
     MINIO_ACCESS_KEY = "grupo19admin"
     MINIO_SECRET_KEY = "grupo19secret"
-    MINIO_SECURE = False    
     MINIO_BUCKET = "grupo19"
-    
+
     SECRET_KEY = "your_dev_secret_key"
     DB_USER = "postgres"
     DB_PASSWORD = "admin"
@@ -42,6 +44,8 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"{DB_SCHEME}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
+
+    CORS_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
 
 class TestingConfig(Config):

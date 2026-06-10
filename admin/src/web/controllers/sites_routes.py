@@ -15,8 +15,8 @@ from src.core.models.user import User
 from src.core.models.images import Imagen
 from src.web.handlers.auth import login_required, permission_required
 from src.web.handlers.maintenance import maintenance_protected
-from minio import Minio
-from minio.error import S3Error
+from botocore.exceptions import ClientError
+from src.web.storage import get_s3_client
 from werkzeug.utils import secure_filename
 import uuid, os
 
@@ -134,7 +134,7 @@ def validar_archivo_imagen(file):
         return f"Archivo demasiado grande: {file.filename}"
     return None
 
-def guardar_imagenes_sitio(files, sitio_id, db, Imagen, minio_client, titulos, portada_idx=0, orden_base=0):
+def guardar_imagenes_sitio(files, sitio_id, db, Imagen, titulos, portada_idx=0, orden_base=0):
     """
     Guarda las imágenes asociadas a un sitio:
       - Valida formato y tamaño
@@ -145,6 +145,7 @@ def guardar_imagenes_sitio(files, sitio_id, db, Imagen, minio_client, titulos, p
     """
     imagenes = []
     bucket_name = current_app.config["MINIO_BUCKET"]
+    s3_client = get_s3_client()
 
     for idx, file in enumerate(files):
         error = validar_archivo_imagen(file)
@@ -161,28 +162,25 @@ def guardar_imagenes_sitio(files, sitio_id, db, Imagen, minio_client, titulos, p
 
         object_name = f"sites/{sitio_id}/{uuid.uuid4().hex}.{ext}"
 
-        file.seek(0, os.SEEK_END)
-        file_length = file.tell()
         file.seek(0)
 
         try:
-            minio_client.put_object(
-                bucket_name=bucket_name,
-                object_name=object_name,
-                data=file,
-                length=file_length,
-                content_type=file.content_type
-            )
-        except S3Error as e:
-            return None, f"Error al subir {filename} a MinIO: {str(e)}"
-
-        try:
-            url = minio_client.presigned_get_object(
+            s3_client.upload_fileobj(
+                file,
                 bucket_name,
                 object_name,
-                expires=timedelta(hours=2)
+                ExtraArgs={"ContentType": file.content_type}
             )
-        except S3Error:
+        except ClientError as e:
+            return None, f"Error al subir {filename} al storage: {str(e)}"
+
+        try:
+            url = s3_client.generate_presigned_url(
+                'get_object',
+                Params={'Bucket': bucket_name, 'Key': object_name},
+                ExpiresIn=7200,
+            )
+        except Exception:
             url = None
 
         imagen = Imagen(
@@ -255,13 +253,6 @@ def new():
             db.session.add(sitio)
             db.session.flush()
 
-            minio_client = Minio(
-                endpoint=current_app.config["MINIO_SERVER"],
-                access_key=current_app.config["MINIO_ACCESS_KEY"],
-                secret_key=current_app.config["MINIO_SECRET_KEY"],
-                secure=current_app.config["MINIO_SECURE"]
-            )
-
             archivos = [f for f in request.files.getlist("imagenes") if f.filename]
             print("[DEBUG] Archivos:", archivos)
             
@@ -289,7 +280,6 @@ def new():
                 sitio.id,
                 db,
                 Imagen,
-                minio_client,
                 titulos=titulos,
                 portada_idx=portada_idx,
                 orden_base=0
@@ -315,24 +305,25 @@ def new():
 
 @login_required
 @maintenance_protected("admin")
-def obtener_imagenes_sitio(sitio_id, db, Imagen, minio_client):
+def obtener_imagenes_sitio(sitio_id, db, Imagen):
     """
     Recupera todas las imágenes asociadas a un sitio y genera nuevas URLs firmadas.
     Ordena por el campo 'orden' para mantener el orden definido.
     """
     bucket_name = current_app.config["MINIO_BUCKET"]
     imagenes = db.session.query(Imagen).filter_by(sitio_id=sitio_id).order_by(Imagen.orden.asc()).all()
+    s3_client = get_s3_client()
 
     resultados = []
     for img in imagenes:
         try:
-            url = minio_client.presigned_get_object(
-                bucket_name,
-                img.ruta,
-                expires=timedelta(hours=2)
+            url = s3_client.generate_presigned_url(
+                'get_object',
+                Params={'Bucket': bucket_name, 'Key': img.ruta},
+                ExpiresIn=7200,
             )
-        except S3Error as e:
-            url = None 
+        except Exception as e:
+            url = None
             print(f"Error al obtener URL de {img.ruta}: {e}")
 
         resultados.append({
@@ -363,18 +354,10 @@ def edit(id):
     coordenadas = extract_coords(sitio.ubicacion)
     error = None
 
-    minio_client = Minio(
-        endpoint=current_app.config["MINIO_SERVER"],
-        access_key=current_app.config["MINIO_ACCESS_KEY"],
-        secret_key=current_app.config["MINIO_SECRET_KEY"],
-        secure=current_app.config["MINIO_SECURE"],
-    )
-
     imagenes_info = obtener_imagenes_sitio(
         sitio_id=sitio.id,
         db=db,
         Imagen=Imagen,
-        minio_client=minio_client
     )
 
     if request.method == "POST":
@@ -427,9 +410,9 @@ def edit(id):
                 if imagen:
                     try:
                         bucket_name = current_app.config["MINIO_BUCKET"]
-                        minio_client.remove_object(bucket_name, imagen.ruta)
-                    except S3Error as e:
-                        print(f"[WARN] Error al eliminar de MinIO: {str(e)}")
+                        get_s3_client().delete_object(Bucket=bucket_name, Key=imagen.ruta)
+                    except ClientError as e:
+                        print(f"[WARN] Error al eliminar del storage: {str(e)}")
                     
                     db.session.delete(imagen)
 
@@ -474,7 +457,6 @@ def edit(id):
                     sitio_id=sitio.id,
                     db=db,
                     Imagen=Imagen,
-                    minio_client=minio_client,
                     titulos=titulos,
                     portada_idx=portada_idx,
                     orden_base=orden_base

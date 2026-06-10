@@ -1,21 +1,12 @@
-from minio import Minio
+import boto3
+from flask import current_app
 
-class Storage:
-    def __init__(self, app=None):
-        self.client = None
-        
-        if app is not None:
-            self.init_app(app)
-            
-    def init_app(self, app):
-        self.client = Minio(
-            app.config['MINIO_SERVER'],
-            access_key=app.config['MINIO_ACCESS_KEY'],
-            secret_key=app.config['MINIO_SECRET_KEY'],
-            secure=app.config.get('MINIO_SECURE')
-        )
-        
-        app.storage = self.client
-        return app
 
-storage = Storage()
+def get_s3_client():
+    return boto3.client(
+        's3',
+        endpoint_url=current_app.config["STORAGE_ENDPOINT_URL"],
+        aws_access_key_id=current_app.config["MINIO_ACCESS_KEY"],
+        aws_secret_access_key=current_app.config["MINIO_SECRET_KEY"],
+        region_name='us-east-1',
+    )
