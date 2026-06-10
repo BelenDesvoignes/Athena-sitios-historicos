@@ -10,5 +10,8 @@ def get_s3_client():
         aws_access_key_id=current_app.config["MINIO_ACCESS_KEY"],
         aws_secret_access_key=current_app.config["MINIO_SECRET_KEY"],
         region_name='us-east-1',
-        config=Config(s3={'addressing_style': 'path'}),
+        config=Config(
+            s3={'addressing_style': 'path'},
+            signature_version='s3v4',
+        ),
     )
