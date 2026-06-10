@@ -31,10 +31,25 @@
             width: 240px;
             flex-shrink: 0;
             transition: none;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-content {
             padding: 12px 0 !important;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .sidebar-content .nav {
+            flex: 1;
+        }
+
+        .sidebar-bottom {
+            padding: 12px 0;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            margin-top: auto;
         }
 
         main {
@@ -56,30 +71,11 @@
             </button>
             {% endif %}
 
-            <a class="navbar-brand text-white me-auto d-flex align-items-center gap-2" href="#">
+            <a class="navbar-brand text-white d-flex align-items-center gap-2"
+               href="{{ url_for('user_admin.home') if 'user_id' in session else url_for('index') }}">
                 <span style="font-family:'Nunito',sans-serif; font-size:1.3rem; font-weight:800;">Athena</span>
                 <span style="font-size:0.75rem; opacity:0.7; font-weight:400; margin-left:2px;">Admin</span>
             </a>
-
-            <nav aria-label="Navegación de usuario">
-                {% if 'user_id' in session %}
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle text-white" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; border-radius:8px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {% if g.user %}{{ g.user.nombre }}{% else %}Cuenta{% endif %}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" style="background:#172554; border:1px solid rgba(255,255,255,0.1); border-radius:8px;">
-                        <li><a class="dropdown-item" style="color:rgba(255,255,255,0.9);" href="{{ url_for('user_admin.profile') }}">Ver perfil</a></li>
-                        <li><hr class="dropdown-divider" style="border-color:rgba(255,255,255,0.15)"></li>
-                        <li><a class="dropdown-item" style="color:rgba(255,255,255,0.9);" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
-                    </ul>
-                </div>
-                {% else %}
-                <div class="d-flex gap-2">
-                    <a class="btn btn-sm btn-outline-light" href="{{ url_for('auth.login') }}">Iniciar Sesión</a>
-                    <a class="btn btn-sm" style="background:rgba(255,255,255,0.15); color:white; border:1px solid rgba(255,255,255,0.3);" href="{{ url_for('auth.register') }}">Registrarse</a>
-                </div>
-                {% endif %}
-            </nav>
         </div>
     </header>
 
@@ -91,61 +87,58 @@
                 {% if not feature_flags.admin_maintenance_mode %}
                     {% if 'site_list' in current_user_permissions() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('sitios.list') }}">
-                            <span style="margin-right:8px; opacity:0.7;">🏛</span>Sitios Históricos
-                        </a>
+                        <a class="nav-link" href="{{ url_for('sitios.list') }}">Sitios Históricos</a>
                     </li>
                     {% endif %}
 
                     {% if 'proposals_validation' in current_user_permissions() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span style="margin-right:8px; opacity:0.7;">📋</span>Propuestas
-                        </a>
+                        <a class="nav-link" href="#">Propuestas</a>
                     </li>
                     {% endif %}
 
                     {% if 'user_moderation' in current_user_permissions() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('reviews.reviews_list') }}">
-                            <span style="margin-right:8px; opacity:0.7;">💬</span>Moderación de Reseñas
-                        </a>
+                        <a class="nav-link" href="{{ url_for('reviews.reviews_list') }}">Moderación de Reseñas</a>
                     </li>
                     {% endif %}
 
                     {% if 'user_index' in current_user_permissions() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('user_admin.list') }}">
-                            <span style="margin-right:8px; opacity:0.7;">👥</span>Usuarios
-                        </a>
+                        <a class="nav-link" href="{{ url_for('user_admin.list') }}">Usuarios</a>
                     </li>
                     {% endif %}
 
                     {% if 'tag_manage' in current_user_permissions() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('tag.list') }}">
-                            <span style="margin-right:8px; opacity:0.7;">🏷</span>Tags
-                        </a>
+                        <a class="nav-link" href="{{ url_for('tag.list') }}">Tags</a>
                     </li>
                     {% endif %}
 
                     {% if 'user_new' in current_user_permissions() %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('user_admin.new') }}">
-                            <span style="margin-right:8px; opacity:0.7;">➕</span>Crear Usuario
-                        </a>
+                        <a class="nav-link" href="{{ url_for('user_admin.new') }}">Crear Usuario</a>
                     </li>
                     {% endif %}
                 {% endif %}
 
                 {% if 'feature_flags_manage' in current_user_permissions() %}
                 <li class="nav-item" style="{% if not feature_flags.admin_maintenance_mode %}margin-top:16px; border-top:1px solid rgba(255,255,255,0.12); padding-top:12px;{% endif %}">
-                    <a class="nav-link" href="{{ url_for('feature_flags.index') }}">
-                        <span style="margin-right:8px; opacity:0.7;">⚙️</span>Feature Flags
-                    </a>
+                    <a class="nav-link" href="{{ url_for('feature_flags.index') }}">Feature Flags</a>
                 </li>
                 {% endif %}
                 </ul>
+
+                <div class="sidebar-bottom">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('user_admin.profile') }}">Ver perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:rgba(255,120,120,0.9) !important;" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         {% endif %}

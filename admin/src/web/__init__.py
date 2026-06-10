@@ -48,7 +48,7 @@ def create_app(env="development", static_folder="../../static"):
     db.init_app(app)
 
     with app.app_context():
-        from sqlalchemy import event
+        from sqlalchemy import event, text
 
         @event.listens_for(db.engine, "connect")
         def set_search_path(dbapi_connection, connection_record):
@@ -63,6 +63,8 @@ def create_app(env="development", static_folder="../../static"):
         from src.core.models.public_user import PublicUser
         from src.core.models.favorites import Favorite
         db.create_all()
+        db.session.execute(text("CREATE EXTENSION IF NOT EXISTS unaccent"))
+        db.session.commit()
         seed_roles_permissions()
         seed_admin_user()
         seed_feature_flags()

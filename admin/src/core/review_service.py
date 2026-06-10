@@ -1,6 +1,6 @@
 # admin/src/core/review_service.py
 from datetime import datetime, timezone
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, func
 from sqlalchemy.orm import joinedload
 from src.core.database import db
 from src.core.models.public_user import PublicUser
@@ -59,7 +59,7 @@ def list_reviews(page=1, per_page=25, status=None, site_id=None, rating_min=None
     if site_id:
         query = query.filter(Review.site_id == site_id)
     if site_name:
-        query = query.filter(Sitio.nombre.ilike(f"%{site_name}%"))
+        query = query.filter(func.unaccent(Sitio.nombre).ilike(func.unaccent(f"%{site_name}%")))
     if rating_min: 
         try:
             query = query.filter(Review.rating >= int(rating_min))

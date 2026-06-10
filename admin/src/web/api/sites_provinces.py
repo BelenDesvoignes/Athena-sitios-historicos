@@ -94,8 +94,8 @@ def get_sites(validated_params):
     if search_term:
         like = f"%{search_term}%"
         query = query.filter(or_(
-            Sitio.nombre.ilike(like),
-            Sitio.descripcion_breve.ilike(like)
+            func.unaccent(Sitio.nombre).ilike(func.unaccent(like)),
+            func.unaccent(Sitio.descripcion_breve).ilike(func.unaccent(like))
         ))
 
     if ciudad:
