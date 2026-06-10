@@ -4,14 +4,12 @@ from src.core.database import db
 from src.core.models.site import Sitio
 from src.core.models.review import Review
 from src.core.models.favorites import Favorite
-from sqlalchemy import func, desc, asc
+from sqlalchemy import func, or_, desc, asc, distinct
 from geoalchemy2.functions import ST_GeomFromText, ST_X, ST_Y
 from .minio import get_site_images
 from src.core.api_validations import validate_api_params, SiteListParams
 from src.web.api.api import api_bp
 from src.core.models.tag import Tag, sitios_tags
-from sqlalchemy import func, or_, desc, asc, distinct, and_
-from src.core.models.images import Imagen
 
 
 @api_bp.get("/sites")
@@ -87,11 +85,10 @@ def get_sites(validated_params):
     ).label('calificacion_promedio')
 
     query = (
-        db.session.query(Sitio, avg_rating, Imagen)
+        db.session.query(Sitio, avg_rating)
         .outerjoin(Review, Sitio.id == Review.site_id)
-        .outerjoin(Imagen, and_(Imagen.sitio_id == Sitio.id, Imagen.es_portada == True))
         .filter(Sitio.visible == True)
-        .group_by(Sitio.id, Imagen.id)
+        .group_by(Sitio.id)
     )
 
     if search_term:
@@ -158,7 +155,7 @@ def get_sites(validated_params):
     for row in pagination.items:
         sitio = row[0]
         promedio = row[1]
-        distancia_val = row[3] if len(row) > 3 else None
+        distancia_val = row[2] if len(row) > 2 else None
 
         cover_url, cover_title, _ = get_site_images(sitio, only_cover=True)
 

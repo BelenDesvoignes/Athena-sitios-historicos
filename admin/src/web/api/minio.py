@@ -21,10 +21,13 @@ def get_site_images(sitio, only_cover=False):
                     Params={'Bucket': bucket_name, 'Key': portada.ruta},
                     ExpiresIn=7200,
                 )
-            except Exception:
+                print(f"[MINIO] Generated cover URL for {portada.ruta}: {cover_url[:80]}...", flush=True)
+            except Exception as e:
+                print(f"[MINIO] ERROR generating cover URL for {portada.ruta}: {e}", flush=True)
                 cover_url = default_url
             cover_title = portada.titulo
         else:
+            print(f"[MINIO] No portada found for sitio id={sitio.id} (imagenes count={len(sitio.imagenes)})", flush=True)
             cover_url = default_url
             cover_title = ""
         return cover_url, cover_title, []
@@ -37,7 +40,8 @@ def get_site_images(sitio, only_cover=False):
                 Params={'Bucket': bucket_name, 'Key': img.ruta},
                 ExpiresIn=7200,
             )
-        except Exception:
+        except Exception as e:
+            print(f"[MINIO] ERROR generating URL for {img.ruta}: {e}", flush=True)
             image_url = default_url
 
         imagenes_data.append({
