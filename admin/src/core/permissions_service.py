@@ -1,13 +1,8 @@
-import logging
-
 from flask import session
 
 from src.core.database import db
 from src.core.models.role_permission import Role
 from src.core.models.user import User
-
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 def get_role_by_name(role_name: str):
@@ -53,6 +48,4 @@ def current_user_permissions():
         session.clear()
         return[]
     user = db.session.get(User, user_id)
-    permisos = [perm.name for perm in user.role.permissions] if user and user.role else []
-    logging.debug(f"Permisos del usuario {user.email}: {permisos}")
-    return permisos
+    return [perm.name for perm in user.role.permissions] if user and user.role else []

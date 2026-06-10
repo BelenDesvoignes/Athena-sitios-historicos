@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template, session
 from flask_session import Session
 from datetime import timedelta
@@ -26,6 +27,10 @@ from flask_cors import CORS
 
 
 def create_app(env="development", static_folder="../../static"):
+    logging.getLogger("botocore").setLevel(logging.WARNING)
+    logging.getLogger("boto3").setLevel(logging.WARNING)
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+
     app = Flask(__name__, static_folder=static_folder,template_folder="templates")
 
     app.config.from_object(config[env])
