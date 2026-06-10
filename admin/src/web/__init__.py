@@ -50,9 +50,15 @@ def create_app(env="development", static_folder="../../static"):
 
     db.init_app(app)
 
-
-
     with app.app_context():
+        from sqlalchemy import event
+
+        @event.listens_for(db.engine, "connect")
+        def set_search_path(dbapi_connection, connection_record):
+            cursor = dbapi_connection.cursor()
+            cursor.execute("SET search_path TO public, extensions, topology")
+            cursor.close()
+
         from src.core.models.user import User
         from src.core.models.site import Sitio
         from src.core.models.review import Review
