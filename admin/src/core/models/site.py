@@ -24,7 +24,7 @@ class Sitio(Base):
     ubicacion: Mapped[str] = mapped_column(Geometry(geometry_type="POINT", srid=4326), nullable=False)
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary=sitios_tags, back_populates="sitios", lazy="selectin")
-    reviews: Mapped[List["Review"]] = relationship("Review", back_populates="site", lazy="selectin")
+    reviews: Mapped[List["Review"]] = relationship("Review", back_populates="site", cascade="all, delete-orphan", lazy="selectin")
     imagenes: Mapped[List["Imagen"]] = relationship(
         "Imagen", back_populates="sitio", cascade="all, delete-orphan", lazy="selectin"
     )
