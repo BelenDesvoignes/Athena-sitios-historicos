@@ -14,6 +14,8 @@ def get_site_images(sitio, only_cover=False):
 
     if only_cover:
         portada = next((img for img in sitio.imagenes if img.es_portada), None)
+        if portada is None and sitio.imagenes:
+            portada = sitio.imagenes[0]
         if portada:
             try:
                 cover_url = s3_client.generate_presigned_url(
