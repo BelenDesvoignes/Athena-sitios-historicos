@@ -5,163 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Panel de Administración - Athena{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
+        html, body { height: 100%; }
         body {
-            background-color: #000 !important;
-            color: #fff;
+            background-color: #F9FAFB !important;
+            color: #111827 !important;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        main {
-            flex-grow: 1;
-            background-color: rgba(33, 37, 41, 0.7); 
-        }
-        
-        header, footer {
-            background-color: rgba(33, 37, 41, 0.8) !important;
-            position: relative;
-            z-index: 1;
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+            min-height: 0;
         }
 
         #sidebarMenu {
-            background-color: rgba(33, 37, 41, 0.9) !important;
-            z-index: 1;
+            background-color: #0F766E !important;
+            min-height: calc(100vh - 60px);
+            width: 240px;
+            flex-shrink: 0;
+            transition: none;
         }
 
-        .navbar-brand {
-            display: flex; 
-            align-items: center; 
-        }
-        
-        .navbar-brand .athena-name {
-            font-size: 1.75rem; 
-            font-weight: bold;
-            line-height: 1; 
+        .sidebar-content {
+            padding: 12px 0 !important;
         }
 
-        .divider {
-            border-color: #555 !important;
-            border-style: solid;
-            position: relative;
-            z-index: 1;
-        }
-
-        .divider.horizontal {
-            border-width: 2px 0 0 0;
-        }
-
-        .divider.vertical {
-            border-width: 0 1px 0 0;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .main-container {
-            display: flex;
-            flex-grow: 1;
+        main {
+            flex: 1;
+            background-color: #FFFFFF !important;
+            color: #111827 !important;
+            padding: 28px 32px !important;
+            min-height: calc(100vh - 60px);
         }
     </style>
 </head>
 <body>
-    
-    <header class="navbar navbar-dark bg-dark" role="banner">
+
+    <header class="navbar navbar-dark" style="background-color:#0D9488; min-height:60px; box-shadow:0 2px 8px rgba(13,148,136,0.25);" role="banner">
         <div class="container-fluid">
             {% if 'user_id' in session %}
-            <nav aria-label="Navegación principal">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Mostrar/Ocultar menú lateral">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
+            <button class="navbar-toggler border-0 me-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Mostrar/Ocultar menú lateral">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             {% endif %}
 
-            <a class="navbar-brand text-light me-auto" href="#">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo de Athena" class="d-inline-block align-text-top" style="height: 40px; margin-right: 10px;" aria-hidden="true">
-                <h1><span class="athena-name">Athena</span></h1>
+            <a class="navbar-brand text-white me-auto d-flex align-items-center gap-2" href="#">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo de Athena" style="height:36px; filter:brightness(0) invert(1);" aria-hidden="true">
+                <span style="font-family:'Nunito',sans-serif; font-size:1.3rem; font-weight:800;">Athena</span>
+                <span style="font-size:0.75rem; opacity:0.7; font-weight:400; margin-left:2px;">Admin</span>
             </a>
 
-            <nav aria-label="Navegación de usuario y autenticación">
+            <nav aria-label="Navegación de usuario">
                 {% if 'user_id' in session %}
                 <div class="dropdown">
-                    <button class="btn btn-dark dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
-                        <span class="visually-hidden">Menú de usuario: </span>
+                    <button class="btn dropdown-toggle text-white" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; border-radius:8px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% if g.user %}{{ g.user.nombre }}{% else %}Cuenta{% endif %}
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item text-light" href="{{ url_for('user_admin.profile') }}">Ver perfil</a></li> 
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-light" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end" style="background:#0F766E; border:1px solid rgba(255,255,255,0.1); border-radius:8px;">
+                        <li><a class="dropdown-item" style="color:rgba(255,255,255,0.9);" href="{{ url_for('user_admin.profile') }}">Ver perfil</a></li>
+                        <li><hr class="dropdown-divider" style="border-color:rgba(255,255,255,0.15)"></li>
+                        <li><a class="dropdown-item" style="color:rgba(255,255,255,0.9);" href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
                     </ul>
                 </div>
                 {% else %}
-                <div class="d-flex">
-                    <a class="btn btn-sm btn-outline-light me-2" href="{{ url_for('auth.login') }}">Iniciar Sesión</a>
-                    <a class="btn btn-sm btn-outline-success" href="{{ url_for('auth.register') }}">Registrarse</a>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-light" href="{{ url_for('auth.login') }}">Iniciar Sesión</a>
+                    <a class="btn btn-sm" style="background:rgba(255,255,255,0.15); color:white; border:1px solid rgba(255,255,255,0.3);" href="{{ url_for('auth.register') }}">Registrarse</a>
                 </div>
                 {% endif %}
             </nav>
         </div>
     </header>
 
-    <div class="divider horizontal" role="separator"></div>
+    <div class="main-wrapper">
+        {% if 'user_id' in session %}
+        <nav id="sidebarMenu" class="sidebar collapse d-md-block" aria-label="Menú de Navegación del Panel">
+            <div class="sidebar-content">
+                <ul class="nav flex-column">
+                {% if not feature_flags.admin_maintenance_mode %}
+                    {% if 'site_list' in current_user_permissions() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('sitios.list') }}">
+                            <span style="margin-right:8px; opacity:0.7;">🏛</span>Sitios Históricos
+                        </a>
+                    </li>
+                    {% endif %}
 
-    <div class="container-fluid main-container">
-        <div class="row w-100">
-            {% if 'user_id' in session %}
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 sidebar collapse" aria-label="Menú de Navegación del Panel">
-                <div class="position-sticky pt-3 sidebar-content">
-                    <ul class="nav flex-column">
-                    {% if not feature_flags.admin_maintenance_mode %}
-                        
-                        {# Gestión de sitios históricos (Requiere permiso 'site_index') #}
-                        {% if 'site_list' in current_user_permissions() %}
-                        <li class="nav-item"><a class="nav-link text-light" href="{{url_for('sitios.list')}}">Gestión de sitios históricos</a></li>
-                        {% endif %}
-                        
-                        {# Validación de propuestas (Requiere permiso 'proposals_validation') #}
-                        {% if 'proposals_validation' in current_user_permissions() %}
-                        <li class="nav-item"><a class="nav-link text-light" href="#">Validación de propuestas</a></li>
-                        {% endif %}
-                        
-                            {% if 'user_moderation' in current_user_permissions() %}
-                                <li class="nav-item"><a class="nav-link text-light" href="{{url_for('reviews.reviews_list')}}">Moderación de Reseñas</a></li>
-                            {% endif %}
-                            {% if 'user_index' in current_user_permissions() %}
-                                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('user_admin.list') }}">Lista de Usuarios</a></li>
-                            {% endif %}
-                            {% if 'tag_manage' in current_user_permissions() %}
-                                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('tag.list') }}">Lista de Tags</a></li>
-                            {% endif %}
-                            {% if 'user_new' in current_user_permissions() %}
-                                <li class="nav-item"><a class="nav-link text-light" href="{{ url_for('user_admin.new') }}">Crear Usuario</a></li>
-                            {% endif %}
-                        {% endif %}
+                    {% if 'proposals_validation' in current_user_permissions() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span style="margin-right:8px; opacity:0.7;">📋</span>Propuestas
+                        </a>
+                    </li>
+                    {% endif %}
 
-                        {% if 'feature_flags_manage' in current_user_permissions() %}
-                            <li class="nav-item">
-                                <a class="nav-link text-light" href="{{ url_for('feature_flags.index') }}">Panel de Feature Flags</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <div class="divider vertical" role="separator"></div>
-            </nav>
-            {% endif %}
+                    {% if 'user_moderation' in current_user_permissions() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('reviews.reviews_list') }}">
+                            <span style="margin-right:8px; opacity:0.7;">💬</span>Moderación de Reseñas
+                        </a>
+                    </li>
+                    {% endif %}
 
-            <main class="{% if 'user_id' in session %}col-md-9 ms-sm-auto col-lg-10 px-md-4{% else %}col-12{% endif %} text-light">
-                {% block content %}{% endblock %}
-            </main>
-        </div>
+                    {% if 'user_index' in current_user_permissions() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('user_admin.list') }}">
+                            <span style="margin-right:8px; opacity:0.7;">👥</span>Usuarios
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% if 'tag_manage' in current_user_permissions() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tag.list') }}">
+                            <span style="margin-right:8px; opacity:0.7;">🏷</span>Tags
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% if 'user_new' in current_user_permissions() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('user_admin.new') }}">
+                            <span style="margin-right:8px; opacity:0.7;">➕</span>Crear Usuario
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+
+                {% if 'feature_flags_manage' in current_user_permissions() %}
+                <li class="nav-item" style="{% if not feature_flags.admin_maintenance_mode %}margin-top:16px; border-top:1px solid rgba(255,255,255,0.12); padding-top:12px;{% endif %}">
+                    <a class="nav-link" href="{{ url_for('feature_flags.index') }}">
+                        <span style="margin-right:8px; opacity:0.7;">⚙️</span>Feature Flags
+                    </a>
+                </li>
+                {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {% endif %}
+
+        <main class="{% if not 'user_id' in session %}w-100{% endif %}">
+            {% block content %}{% endblock %}
+        </main>
     </div>
 
-    <footer class="py-3">
+    <footer class="py-3" style="background-color:#F9FAFB; border-top:1px solid #E5E7EB;">
         <div class="container text-center">
-            <p class="text-light footer-text mb-0"><small>&copy; 2025 Proyecto de Software 2025</small></p>
+            <small style="color:#9CA3AF;">&copy; 2025 Proyecto de Software 2025</small>
         </div>
     </footer>
 

@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from sqlalchemy import func
 
 from src.core.bcrypt import check_password
 from src.core.database import db
@@ -71,16 +72,26 @@ def login():
 # Define la ruta de la página de inicio del admin
 @user_admin_bp.route("/home")
 def home():
-    """
-    Renderiza la página principal o de bienvenida del módulo de administración de usuarios.
+    from src.core.models.site import Sitio
+    from src.core.models.review import Review, ReviewStatus
+    from src.core.models.user import User
+    from src.core.models.public_user import PublicUser
 
-    Esta función es accesible a través de la ruta '/home' dentro del blueprint 
-    de administración de usuarios.
+    try:
+        total_sites = db.session.query(func.count(Sitio.id)).scalar() or 0
+        pending_reviews = db.session.query(func.count(Review.id)).filter(Review.status == ReviewStatus.PENDIENTE).scalar() or 0
+        total_admins = db.session.query(func.count(User.id)).scalar() or 0
+        total_public = db.session.query(func.count(PublicUser.id)).scalar() or 0
+    except Exception:
+        total_sites = pending_reviews = total_admins = total_public = 0
 
-    Returns:
-        str: La plantilla HTML renderizada ("home.html").
-    """
-    return render_template("home.html")
+    return render_template(
+        "home.html",
+        total_sites=total_sites,
+        pending_reviews=pending_reviews,
+        total_admins=total_admins,
+        total_public=total_public,
+    )
 
 
 # Ruta de Registro

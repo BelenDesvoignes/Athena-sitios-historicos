@@ -3,8 +3,105 @@
 {% block title %}Dashboard | Panel de Administración{% endblock %}
 
 {% block content %}
+<div style="max-width:1100px; margin:0 auto;">
+
+  <div style="margin-bottom:28px;">
+    <h2 style="font-family:'Nunito',sans-serif; font-size:1.6rem; font-weight:800; color:#111827; margin-bottom:4px;">
+      Dashboard
+    </h2>
+    <p style="color:#6B7280; font-size:0.95rem; margin:0;">
+      Bienvenido al panel de administración de Athena.
+    </p>
+  </div>
+
+  <!-- Stats grid -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-bottom:40px;">
+
+    {% if 'site_list' in current_user_permissions() %}
+    <a href="{{ url_for('sitios.list') }}" class="stat-card" style="text-decoration:none;">
+      <div class="stat-icon teal">🏛</div>
+      <div>
+        <div class="stat-label">Sitios Históricos</div>
+        <div class="stat-value">{{ total_sites }}</div>
+      </div>
+    </a>
+    {% else %}
+    <div class="stat-card">
+      <div class="stat-icon teal">🏛</div>
+      <div>
+        <div class="stat-label">Sitios Históricos</div>
+        <div class="stat-value">{{ total_sites }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if 'user_moderation' in current_user_permissions() %}
+    <a href="{{ url_for('reviews.reviews_list') }}" class="stat-card" style="text-decoration:none;">
+      <div class="stat-icon coral">💬</div>
+      <div>
+        <div class="stat-label">Reseñas Pendientes</div>
+        <div class="stat-value">{{ pending_reviews }}</div>
+      </div>
+    </a>
+    {% else %}
+    <div class="stat-card">
+      <div class="stat-icon coral">💬</div>
+      <div>
+        <div class="stat-label">Reseñas Pendientes</div>
+        <div class="stat-value">{{ pending_reviews }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if 'user_index' in current_user_permissions() %}
+    <a href="{{ url_for('user_admin.list') }}" class="stat-card" style="text-decoration:none;">
+      <div class="stat-icon orange">👤</div>
+      <div>
+        <div class="stat-label">Administradores</div>
+        <div class="stat-value">{{ total_admins }}</div>
+      </div>
+    </a>
+    {% else %}
+    <div class="stat-card">
+      <div class="stat-icon orange">👤</div>
+      <div>
+        <div class="stat-label">Administradores</div>
+        <div class="stat-value">{{ total_admins }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="stat-card">
+      <div class="stat-icon purple">🌍</div>
+      <div>
+        <div class="stat-label">Usuarios Públicos</div>
+        <div class="stat-value">{{ total_public }}</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quick links -->
+  <h3 style="font-family:'Nunito',sans-serif; font-size:1.1rem; font-weight:700; color:#6B7280; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:16px;">
+    Accesos rápidos
+  </h3>
+  <div style="display:flex; flex-wrap:wrap; gap:10px;">
+    {% if 'site_list' in current_user_permissions() %}
+    <a href="{{ url_for('sitios.list') }}" class="btn btn-outline-primary btn-sm">Ver sitios</a>
+    {% endif %}
+    {% if 'user_moderation' in current_user_permissions() %}
+    <a href="{{ url_for('reviews.reviews_list') }}" class="btn btn-outline-primary btn-sm">Moderar reseñas</a>
+    {% endif %}
+    {% if 'user_index' in current_user_permissions() %}
+    <a href="{{ url_for('user_admin.list') }}" class="btn btn-outline-primary btn-sm">Gestionar usuarios</a>
+    {% endif %}
+    {% if 'tag_manage' in current_user_permissions() %}
+    <a href="{{ url_for('tag.list') }}" class="btn btn-outline-primary btn-sm">Gestionar tags</a>
+    {% endif %}
+    {% if 'feature_flags_manage' in current_user_permissions() %}
+    <a href="{{ url_for('feature_flags.index') }}" class="btn btn-outline-primary btn-sm">Feature Flags</a>
+    {% endif %}
+  </div>
+
+</div>
 {% endblock %}
-
-
-#este archivo usa la plantilla base_layout.html y define el título y  como base ">
-#base_layout es el "esqueleto" que mantiene la estructura en toda la app. 

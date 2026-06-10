@@ -3,23 +3,46 @@
   <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/athena-logo.png">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Athena </title>
-  <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        box-sizing: border-box;
+    <title>Athena — Patrimonio Histórico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --color-primary: #0D9488;
+        --color-primary-dark: #0F766E;
+        --color-primary-light: #CCFBF1;
+        --color-accent: #E8613C;
+        --color-accent-dark: #C84E2C;
+        --bg: #FFFFFF;
+        --surface: #F9FAFB;
+        --surface-2: #F3F4F6;
+        --border: #E5E7EB;
+        --text-primary: #111827;
+        --text-secondary: #6B7280;
+        --text-muted: #9CA3AF;
+        --success: #10B981;
+        --warning: #F59E0B;
+        --danger: #EF4444;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-pill: 24px;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+        --shadow-lg: 0 8px 24px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
       }
-      *, *::before, *::after {
-        box-sizing: inherit;
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        color: var(--text-primary);
+        background: var(--bg);
+        line-height: 1.5;
       }
-      #app {
-        height: 100%;
-      }
+      h1, h2, h3, h4 { font-family: 'Nunito', sans-serif; }
+      #app { height: 100%; }
     </style>
   </head>
   <body>

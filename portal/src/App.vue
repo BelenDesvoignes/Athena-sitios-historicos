@@ -46,73 +46,65 @@ const logout = () => {
   <div id="app-wrapper">
 
     <header class="main-header">
-
       <div class="header-left">
         <button @click="toggleMenu" class="menu-hamburguer-btn" aria-label="Abrir Menú">
           <span class="icon-line"></span>
           <span class="icon-line"></span>
           <span class="icon-line"></span>
         </button>
-        <span class="menu-label">Menú</span>
       </div>
 
       <div class="header-center">
-        <img src="@/assets/athena-logo.png" alt="Logo de Athena" class="app-logo" @click="router.push('/')">
+        <img src="@/assets/athena-logo.png" alt="Athena" class="app-logo" @click="router.push('/')" />
+        <span class="app-title" @click="router.push('/')">Athena</span>
       </div>
 
+      <nav class="header-nav">
+        <button @click="router.push('/')" class="nav-link-btn">Inicio</button>
+        <button @click="router.push('/sitios')" class="nav-link-btn">Sitios</button>
+        <template v-if="authStore.isLoggedIn">
+          <button @click="router.push('/sitios?favorites=true')" class="nav-link-btn">Favoritos</button>
+        </template>
+      </nav>
+
       <div class="header-right">
-        <div v-if="authStore.isLoggedIn" class="user-avatar-placeholder">
+        <div v-if="authStore.isLoggedIn" class="user-avatar-wrapper">
           <img
             :src="authStore.user.imageUrl"
-            alt="Foto de perfil"
-            width="40"
-            height="40"
-            style="border-radius: 50%; cursor: pointer;"
+            alt="Perfil"
+            class="user-avatar"
             @click="router.push('/perfil')"
           />
         </div>
         <div v-else class="google-login-btn-wrapper">
-            <!-- Botón grande -->
-            <GoogleLogin
-              v-if="!useIconButton"
-              :callback="callback"
-              :buttonConfig="{
-                type: 'standard',
-                theme: 'filled_blue',
-                size: 'medium'
-              }"
-            />
-
-            <!-- Botón solo con la G -->
-            <GoogleLogin
-              v-else
-              :callback="callback"
-              :buttonConfig="{
-                type: 'icon',
-                shape: 'circle',
-                size: 'medium'
-              }"
-            />
+          <GoogleLogin
+            v-if="!useIconButton"
+            :callback="callback"
+            :buttonConfig="{ type: 'standard', theme: 'outline', size: 'medium' }"
+          />
+          <GoogleLogin
+            v-else
+            :callback="callback"
+            :buttonConfig="{ type: 'icon', shape: 'circle', size: 'medium' }"
+          />
         </div>
       </div>
-
     </header>
 
     <aside :class="['sidebar', { 'is-open': isMenuOpen }]">
-      <button @click="toggleMenu" class="close-menu-btn">✖️</button>
+      <div class="sidebar-header">
+        <span class="sidebar-brand">Athena</span>
+        <button @click="toggleMenu" class="close-menu-btn" aria-label="Cerrar menú">✕</button>
+      </div>
 
       <nav class="sidebar-nav">
         <button @click="router.push('/'); toggleMenu();" class="sidebar-link">Inicio</button>
         <button @click="router.push('/sitios'); toggleMenu();" class="sidebar-link">Listado de Sitios</button>
 
         <template v-if="authStore.isLoggedIn">
-          <hr>
-          <button @click="router.push('/perfil'); toggleMenu();" class="sidebar-link">
-            Perfil
-          </button>
-          <button @click="logout(); toggleMenu();" class="sidebar-link logout-link">
-            Cerrar Sesión
-          </button>
+          <div class="sidebar-divider"></div>
+          <button @click="router.push('/perfil'); toggleMenu();" class="sidebar-link">Perfil</button>
+          <button @click="logout(); toggleMenu();" class="sidebar-link logout-link">Cerrar Sesión</button>
         </template>
       </nav>
     </aside>
@@ -124,141 +116,212 @@ const logout = () => {
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
-
 #app-wrapper {
-  font-family: 'Inter', sans-serif;
-  color: #373b3f;
-}
-
-.auth-bar, .user-info {
-  display: none !important;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-primary, #111827);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #0d055c;
-  color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  padding: 0 24px;
+  height: 64px;
+  background-color: var(--color-primary, #0D9488);
+  box-shadow: 0 2px 8px rgba(13,148,136,0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
+  gap: 16px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 100px;
+  flex-shrink: 0;
 }
 
 .menu-hamburguer-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .icon-line {
   display: block;
-  width: 25px;
-  height: 3px;
+  width: 24px;
+  height: 2px;
   background-color: white;
   border-radius: 2px;
 }
 
-.menu-label {
-  font-weight: bold;
-  font-size: 1.1em;
-  display: none;
-}
-
 .header-center {
-  flex-grow: 1;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .app-logo {
-  height: 55px;
-  max-width: 200px;
+  height: 36px;
+  width: auto;
+}
+
+.app-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-grow: 1;
+  padding-left: 16px;
+}
+
+.nav-link-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.nav-link-btn:hover {
+  background-color: rgba(255,255,255,0.15);
+  color: white;
 }
 
 .header-right {
-  min-width: 100px;
+  margin-left: auto;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
 }
 
+.user-avatar-wrapper {
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  object-fit: cover;
+  transition: border-color 0.2s;
+}
+
+.user-avatar:hover {
+  border-color: white;
+}
+
+/* Sidebar */
 .sidebar {
- position: fixed;
+  position: fixed;
   top: 0;
-  left: -380px;
+  left: -320px;
   width: 280px;
   height: 100%;
-  background-color: #f8f8f8;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-  transition: left 0.3s ease;
+  background-color: white;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.12);
+  transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1010;
-  padding: 20px;
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar.is-open {
   left: 0;
 }
 
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 16px;
+  background-color: var(--color-primary, #0D9488);
+}
+
+.sidebar-brand {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+}
+
 .close-menu-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: none;
   border: none;
-  font-size: 1.5em;
+  font-size: 1.1rem;
   cursor: pointer;
-  color: #0a0c51;
+  color: rgba(255,255,255,0.8);
+  padding: 4px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.close-menu-btn:hover {
+  color: white;
+  background-color: rgba(255,255,255,0.15);
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 40px;
+  gap: 2px;
+  padding: 12px 12px;
+  flex-grow: 1;
 }
 
-.sidebar-nav hr {
-  width: 100%;
-  border: none;
-  border-top: 1px solid var(--vt-c-divider-light-2, #f2f2f2);
-  margin: 10px 0;
+.sidebar-divider {
+  height: 1px;
+  background-color: var(--border, #E5E7EB);
+  margin: 8px 0;
 }
 
 .sidebar-link {
   background: none;
   border: none;
   text-align: left;
-  padding: 10px 15px;
-  font-size: 1.1em;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  color: var(--vt-c-indigo, #2c3e50);
-  transition: background-color 0.2s;
-  border-radius: 5px;
+  color: var(--text-primary, #111827);
+  border-radius: 8px;
   width: 100%;
+  transition: background-color 0.15s;
 }
 
 .sidebar-link:hover {
-  background-color: var(--vt-c-white-mute, #f2f2f2);
+  background-color: var(--surface, #F9FAFB);
+  color: var(--color-primary, #0D9488);
 }
 
 .logout-link {
-  color: #dc3545;
-  font-weight: bold;
+  color: var(--danger, #EF4444);
+}
+
+.logout-link:hover {
+  background-color: #FEF2F2;
+  color: #DC2626;
 }
 
 .menu-overlay {
@@ -267,9 +330,17 @@ const logout = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.4);
   z-index: 1005;
+  backdrop-filter: blur(2px);
 }
 
-
+@media (max-width: 640px) {
+  .header-nav {
+    display: none;
+  }
+  .app-title {
+    display: none;
+  }
+}
 </style>

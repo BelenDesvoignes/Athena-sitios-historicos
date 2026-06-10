@@ -418,95 +418,65 @@
 </script>
 
     <style>
-        body, label, legend, input, select, textarea {
-            color: #fff !important;
-        }
-
-        fieldset {
-            border: 1px solid #666;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
+        body, label, legend, input, select, textarea { color: #111827 !important; }
+        fieldset { border: 1px solid #E5E7EB; padding: 15px; border-radius: 10px; }
         .form-control, .form-select {
-            background-color: #222 !important;
-            color: #fff !important;
-            border: 1px solid #555 !important;
+            background-color: white !important;
+            color: #111827 !important;
+            border: 1px solid #E5E7EB !important;
         }
-
         .form-control:focus, .form-select:focus {
-            background-color: #333 !important;
-            color: #fff !important;
-            border-color: #0dcaf0 !important;
-            box-shadow: none !important;
+            background-color: white !important;
+            color: #111827 !important;
+            border-color: #0D9488 !important;
+            box-shadow: 0 0 0 3px rgba(13,148,136,0.1) !important;
         }
-
         .select2-container--default .select2-selection--multiple {
-            background-color: #222 !important;
-            border: 1px solid #555 !important;
-            color: #fff !important;
+            background-color: white !important;
+            border: 1px solid #E5E7EB !important;
         }
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #0d6efd !important;
-            color: #fff !important;
+            background-color: #CCFBF1 !important;
+            color: #0F766E !important;
             border: none !important;
         }
         .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: #fff !important;
+            color: #0F766E !important;
             margin-right: 4px;
         }
         .select2-dropdown {
-            background-color: #222 !important;
-            color: #fff !important;
-            border: 1px solid #555 !important;
+            background-color: white !important;
+            color: #111827 !important;
+            border: 1px solid #E5E7EB !important;
         }
         .select2-results__option--highlighted {
-            background-color: #0d6efd !important;
-            color: #fff !important;
+            background-color: #0D9488 !important;
+            color: white !important;
         }
-
         .imagen-item {
-            background-color: #1e1e1e;
-            border: 1px solid #444;
+            background-color: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 8px;
         }
-        .imagen-item img {
-            border: 2px solid #555;
-        }
-        .imagen-item img:hover {
-            border-color: #0d6efd;
-        }
-
-        .custom-file-upload {
-            position: relative;
-            display: inline-block;
-        }
-
-        .custom-file-upload input[type="file"] {
-            display: none;
+        .imagen-item img { border: 2px solid #E5E7EB; border-radius: 6px; }
+        .imagen-item img:hover { border-color: #0D9488; }
+        .custom-file-upload { position: relative; display: inline-block; }
+        .custom-file-upload input[type="file"] { display: none;
         }
 
         .custom-file-upload .btn {
             cursor: pointer;
-            background-color: #0d6efd;
+            background-color: #0D9488;
             border: none;
             color: white;
             padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: background-color 0.2s ease;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s;
         }
-
-        .custom-file-upload .btn:hover {
-            background-color: #0b5ed7;
-        }
-
-        #file-count {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-        ::placeholder {
-            color: #fff !important;
-            opacity: 1;
-        }
+        .custom-file-upload .btn:hover { background-color: #0F766E; }
+        #file-count { font-size: 0.9rem; color: #6B7280; }
+        ::placeholder { color: #9CA3AF !important; opacity: 1; }
     </style>
 {% endblock %}

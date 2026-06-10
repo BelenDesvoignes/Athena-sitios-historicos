@@ -1,35 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card bg-dark text-white">
-                    <div class="card-header text-center">
-                        <h2>Iniciar sesión</h2>
-                    </div>
-                    <div class="card-body">
-                        <form method="post" action="{{ url_for('user_admin.login') }}">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            {% if error %}
-                                <div class="alert alert-danger">{{ error }}</div>
-                            {% endif %}
-                            <button type="submit" class="btn btn-primary w-100">Acceder</button>
-                        </form>
-                    </div>
-                    <div class="card-footer text-center">
-                        <p class="mb-0">¿No tienes una cuenta?</p>
-                        <a href="{{ url_for('user_admin.register') }}">Regístrate aquí</a>
-                    </div>
+<div style="display:flex; align-items:center; justify-content:center; min-height:calc(100vh - 120px); padding:20px;">
+    <div style="background:white; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.15); width:100%; max-width:420px; overflow:hidden;">
+
+        <!-- Header -->
+        <div style="background:#0D9488; padding:28px 32px 24px; text-align:center;">
+            <div style="font-family:'Nunito',sans-serif; font-size:1.6rem; font-weight:800; color:white; margin-bottom:4px;">
+                Athena Admin
+            </div>
+            <div style="color:rgba(255,255,255,0.78); font-size:0.9rem;">
+                Accedé al panel de administración
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div style="padding:28px 32px 32px;">
+            <form method="post" action="{{ url_for('user_admin.login') }}">
+                <div style="margin-bottom:18px;">
+                    <label for="email" style="display:block; font-size:0.85rem; font-weight:600; color:#6B7280; margin-bottom:6px;">
+                        Correo electrónico
+                    </label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="tucorreo@ejemplo.com"
+                        required
+                        style="background:white; border:1px solid #E5E7EB; border-radius:8px; padding:10px 14px; font-size:0.95rem; width:100%; outline:none; transition:border-color 0.2s;"
+                        onfocus="this.style.borderColor='#0D9488'; this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.12)'"
+                        onblur="this.style.borderColor='#E5E7EB'; this.style.boxShadow='none'"
+                    >
                 </div>
+                <div style="margin-bottom:22px;">
+                    <label for="password" style="display:block; font-size:0.85rem; font-weight:600; color:#6B7280; margin-bottom:6px;">
+                        Contraseña
+                    </label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                        style="background:white; border:1px solid #E5E7EB; border-radius:8px; padding:10px 14px; font-size:0.95rem; width:100%; outline:none; transition:border-color 0.2s;"
+                        onfocus="this.style.borderColor='#0D9488'; this.style.boxShadow='0 0 0 3px rgba(13,148,136,0.12)'"
+                        onblur="this.style.borderColor='#E5E7EB'; this.style.boxShadow='none'"
+                    >
+                </div>
+
+                {% if error %}
+                <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:8px; padding:10px 14px; color:#991B1B; font-size:0.88rem; margin-bottom:18px;">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <button
+                    type="submit"
+                    style="width:100%; background:#0D9488; color:white; border:none; border-radius:8px; padding:12px; font-size:1rem; font-weight:600; cursor:pointer; transition:background-color 0.2s;"
+                    onmouseover="this.style.background='#0F766E'"
+                    onmouseout="this.style.background='#0D9488'"
+                >
+                    Acceder
+                </button>
+            </form>
+
+            <div style="text-align:center; margin-top:20px; padding-top:18px; border-top:1px solid #F3F4F6;">
+                <p style="font-size:0.88rem; color:#6B7280; margin-bottom:8px;">¿No tenés una cuenta?</p>
+                <a href="{{ url_for('user_admin.register') }}" style="color:#0D9488; font-weight:600; font-size:0.9rem; text-decoration:none;">
+                    Registrate aquí →
+                </a>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

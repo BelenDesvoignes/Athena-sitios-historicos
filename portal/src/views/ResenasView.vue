@@ -2,8 +2,8 @@
   <div class="reviews-page">
     <BackButton />
     <header class="page-header">
-      <h1>📝 Mis Reseñas</h1>
-      <p class="subtitle">Aquí puedes ver todas tus reseñas y su estado de aprobación.</p>
+      <h1>Mis Reseñas</h1>
+      <p class="subtitle">El estado de aprobación de tus comentarios.</p>
     </header>
 
     <main class="reviews-main">
@@ -310,45 +310,54 @@ onMounted(() => {
 
 <style scoped>
 .reviews-page {
-  padding: 20px;
+  padding: 40px 24px 60px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* -------- HEADER -------- */
 .page-header {
-  text-align: center;
   margin-bottom: 40px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border, #E5E7EB);
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 48px;
+  height: 2px;
+  background-color: var(--color-primary, #0D9488);
 }
 
 .page-header h1 {
-  color: #3f51b5;
-  font-size: 2.2em;
-  margin-bottom: 5px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary, #111827);
+  margin-bottom: 6px;
 }
 
 .subtitle {
-  color: #666;
-  font-size: 1.1em;
+  color: var(--text-secondary, #6B7280);
+  font-size: 1rem;
 }
 
-/* -------- GRID LIST -------- */
 .list-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-  gap: 25px;
-  padding: 20px 0;
+  gap: 20px;
+  padding: 8px 0;
 }
 
-/* -------- REVIEW CARD -------- */
 .review-card {
   padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
+  border-radius: var(--radius-lg, 16px);
+  border: 1px solid var(--border, #E5E7EB);
   background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -356,169 +365,177 @@ onMounted(() => {
 
 .review-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .review-title {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #3f51b5;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+  flex: 1;
 }
 
-/* -------- RATING -------- */
 .review-rating {
   margin-top: 8px;
-  font-size: 1.1em;
-  color: #444;
-  font-weight: bold;
+  font-size: 1rem;
+  color: var(--text-secondary, #6B7280);
+  font-weight: 600;
 }
 
-/* -------- COMMENT -------- */
 .review-comment {
-  margin-top: 12px;
-  font-size: 1.05em;
-  color: #333;
-  padding: 10px;
-  background: #fafafa;
-  border-radius: 8px;
-  border: 1px solid #eee;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--text-primary, #111827);
+  padding: 10px 12px;
+  background: var(--surface, #F9FAFB);
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid var(--border, #E5E7EB);
   line-height: 1.5;
   display: block;
   overflow: auto;
 }
 
-/* -------- STATUS -------- */
 .review-status {
-  font-weight: bold;
-  margin-top: 10px;
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  width: fit-content;
 }
 
 .review-status.pendiente {
-  color: orange;
+  background-color: #FEF3C7;
+  color: #92400E;
 }
 
 .review-status.aprobada {
-  color: green;
+  background-color: #D1FAE5;
+  color: #065F46;
 }
 
 .review-status.rechazada {
-  color: red;
+  background-color: #FEE2E2;
+  color: #991B1B;
 }
 
 .review-rejection {
-  margin-top: 5px;
-  color: #c00;
-  font-style: italic;
-  font-size: 0.95em;
-  background: #ffe5e5;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ffbfbf;
+  margin-top: 8px;
+  color: #991B1B;
+  font-size: 0.9rem;
+  background: #FEF2F2;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm, 8px);
+  border: 1px solid #FECACA;
 }
 
-/* -------- DATE -------- */
 .review-date {
-  font-size: 0.9em;
-  color: #777;
-  margin-top: 12px;
-}
-
-/* -------- CONTENT -------- */
-.review-content {
+  font-size: 0.82rem;
+  color: var(--text-muted, #9CA3AF);
   margin-top: 10px;
-  color: #444;
-  line-height: 1.5;
 }
 
-/* -------- MESSAGE BOXES -------- */
+.review-content {
+  margin-top: 8px;
+  color: var(--text-secondary, #6B7280);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
 .message-box {
   text-align: center;
-  padding: 30px;
-  border-radius: 8px;
-  margin-top: 20px;
-  font-size: 1.1em;
+  padding: 32px;
+  border-radius: var(--radius-md, 12px);
+  margin-top: 16px;
+  font-size: 1rem;
 }
 
+/* Modal */
 .review-modal-overlay {
-  /* Fija el modal en la ventana */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* Fondo semi-transparente */
-  background: rgba(0, 0, 0, 0.6);
-  /* Centrado */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Asegura que esté por encima de todo */
   z-index: 1000;
+  backdrop-filter: blur(2px);
 }
 
 .review-modal {
   background: white;
-  padding: 25px;
-  border-radius: 10px;
+  padding: 24px;
+  border-radius: var(--radius-lg, 16px);
   max-width: 500px;
   width: 90%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  /* Animación de entrada */
-  transform: scale(1);
-  transition: transform 0.2s ease-out;
+  box-shadow: var(--shadow-lg);
 }
 
-/* Encabezado */
 .review-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border, #E5E7EB);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .review-modal-header h3 {
   margin: 0;
-  color: #3f51b5;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 1.5em;
+  font-size: 1.1rem;
   cursor: pointer;
-  color: #666;
+  color: var(--text-secondary, #6B7280);
+  padding: 4px;
+  border-radius: 4px;
   transition: color 0.15s;
 }
 
-.close-btn:hover {
-  color: #333;
-}
+.close-btn:hover { color: var(--text-primary, #111827); }
 
-/* Cuerpo del Modal */
 .review-modal-body {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
 .input-label {
-  font-weight: bold;
-  color: #444;
-  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #6B7280);
 }
 
 .input-select, .input-textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1em;
-  box-sizing: border-box; /* Importante para el padding */
+  padding: 10px 12px;
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: var(--radius-sm, 8px);
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-/* Pie de página */
+.input-select:focus, .input-textarea:focus {
+  border-color: var(--color-primary, #0D9488);
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+}
+
 .review-modal-footer {
   margin-top: 20px;
   display: flex;
@@ -526,159 +543,128 @@ onMounted(() => {
   gap: 10px;
 }
 
-.primary-btn, .secondary-btn {
-  padding: 10px 18px;
-  border-radius: 6px;
+.primary-btn {
+  padding: 10px 20px;
+  background: var(--color-primary, #0D9488);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm, 8px);
   cursor: pointer;
-  font-size: 1em;
+  font-size: 0.95rem;
+  font-weight: 600;
   transition: background 0.2s;
 }
 
-.primary-btn {
-  background: #3f51b5;
-  color: white;
-  border: none;
-}
-
-.primary-btn:hover {
-  background: #2d3d9b;
-}
+.primary-btn:hover { background: var(--color-primary-dark, #0F766E); }
 
 .secondary-btn {
-  background: #e0e0e0;
-  color: #333;
-  border: 1px solid #ccc;
+  padding: 10px 20px;
+  background: var(--surface-2, #F3F4F6);
+  color: var(--text-primary, #111827);
+  border: 1px solid var(--border, #E5E7EB);
+  border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
 }
 
-.secondary-btn:hover {
-  background: #ccc;
-}
+.secondary-btn:hover { background: #E5E7EB; }
 
-/* Estilos de Botones de Reseña */
 .review-card section {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.edit-btn, .delete-btn {
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9em;
-  font-weight: bold;
-  transition: background 0.2s;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .edit-btn {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
+  background: var(--surface-2, #F3F4F6);
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 0.88rem;
+  transition: background 0.15s;
 }
 
-.edit-btn:hover {
-  background: #ffe098ff;
-  transform: scale(1.1)
-}
-
-
-.edit-btn:active {
-  transform: scale(0.9);
-}
-
+.edit-btn:hover { background: #FEF3C7; }
 
 .modal-delete {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--surface-2, #F3F4F6);
   border: none;
-  font-size: 18px;
-  padding: 5px 8px;
+  font-size: 0.88rem;
+  padding: 6px 10px;
   cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.2s, transform 0.2s;
+  border-radius: var(--radius-sm, 8px);
+  transition: background 0.15s;
 }
 
-.modal-delete:hover {
-  background: rgba(255, 0, 0, 0.3);
-  transform: scale(1.1);
-}
-
-.modal-delete:active {
-  transform: scale(0.9);
-}
-
+.modal-delete:hover { background: #FEE2E2; }
 
 .loading-box {
-  color: #3f51b5;
-  font-weight: bold;
+  color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary-light, #CCFBF1);
+  font-style: italic;
 }
 
 .error-message {
-  background-color: #ffe0e0;
-  color: #cc0000;
-  border: 1px solid #ff9999;
+  background-color: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
 }
 
 .empty-message {
-  background-color: #f7f7f7;
-  color: #555;
-  border: 1px solid #ddd;
+  background-color: var(--surface, #F9FAFB);
+  color: var(--text-secondary, #6B7280);
+  border: 1px solid var(--border, #E5E7EB);
 }
 
 .empty-message p {
   margin-top: 10px;
   font-style: italic;
-  color: #888;
+  color: var(--text-muted, #9CA3AF);
 }
 
-/* -------- BUTTONS -------- */
-.btn-primary {
-  background: #3f51b5;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  font-size: 1em;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-primary:hover {
-  background: #2d3d9b;
-}
-
-
-/* -------- LOGIN MODAL -------- */
-.login-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.45);
+.pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border, #E5E7EB);
+  font-size: 0.9rem;
+  color: var(--text-secondary, #6B7280);
 }
 
-.login-modal-content {
-  background: white;
-  padding: 25px 30px;
-  border-radius: 12px;
-  max-width: 420px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.page-button {
+  padding: 8px 16px;
+  background: var(--color-primary, #0D9488);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s;
 }
+
+.page-button:disabled {
+  background: var(--border, #E5E7EB);
+  color: var(--text-muted, #9CA3AF);
+  cursor: not-allowed;
+}
+
+.page-button:not(:disabled):hover { background: var(--color-primary-dark, #0F766E); }
+
 .reviews-disabled-msg {
   text-align: center;
-  padding: 12px 16px;
-  background: #fffbe6;
-  border: 1px solid #ffe58f;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #8c6d1f;
+  padding: 14px 18px;
+  background: #FEF3C7;
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 0.95rem;
+  color: #92400E;
   margin-bottom: 16px;
 }
 </style>

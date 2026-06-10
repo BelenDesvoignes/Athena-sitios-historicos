@@ -1,35 +1,34 @@
 <template>
 <section class="featured-section">
-<header class="section-header">
-<h2>{{ title }}</h2>
-<!-- Se utiliza fullListRoute para incluir orden y filtros en la URL de "Ver todos" -->
-<RouterLink v-if="listRoute && sites.length > 0" :to="fullListRoute" class="btn-ver-todos">
-Ver todos &gt;
-</RouterLink>
-</header>
-<div v-if="isLoading" class="status-message loading-pulse">
-Cargando {{ title.toLowerCase() }}...
-</div>
-<div v-else-if="error" class="status-message error-box">
-❌ Error al cargar los sitios: **{{ errorMessage }}**
-<p v-if="props.isFavorite && errorMessage.includes('401')">
-Tu sesión ha expirado o no estás autorizado. Por favor, vuelve a iniciar sesión.
-</p>
-</div>
-<div v-else-if="sites.length > 0" class="site-list">
-<SiteCard v-for="site in sites" :key="site.id" :site="site" />
-</div>
-<div v-else-if="props.isFavorite" class="status-message empty-box">
-Aún no tienes sitios marcados como favoritos.
-</div>
-<div v-else class="status-message empty-box">
-No se encontró contenido para esta sección.
-</div>
+  <header class="section-header">
+    <h2 class="section-title">{{ title }}</h2>
+    <RouterLink v-if="listRoute && sites.length > 0" :to="fullListRoute" class="btn-ver-todos">
+      Ver todos →
+    </RouterLink>
+  </header>
+  <div v-if="isLoading" class="status-message loading-pulse">
+    Cargando {{ title.toLowerCase() }}...
+  </div>
+  <div v-else-if="error" class="status-message error-box">
+    Error al cargar los sitios: {{ errorMessage }}
+    <p v-if="props.isFavorite && errorMessage.includes('401')">
+      Tu sesión ha expirado. Por favor, volvé a iniciar sesión.
+    </p>
+  </div>
+  <div v-else-if="sites.length > 0" class="site-list">
+    <SiteCard v-for="site in sites" :key="site.id" :site="site" />
+  </div>
+  <div v-else-if="props.isFavorite" class="status-message empty-box">
+    Aún no tenés sitios marcados como favoritos.
+  </div>
+  <div v-else class="status-message empty-box">
+    No se encontró contenido para esta sección.
+  </div>
 </section>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'; // <<-- Añadido 'computed'
+import { ref, onMounted, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import SiteCard from './SiteCard.vue';
 import { useAuthStore } from '@/stores/auth';
@@ -55,26 +54,17 @@ const MAX_SITES = 4;
 
 const fullListRoute = computed(() => {
     const query = {
-       
         order_by: props.orderByParam,
-        order: 'desc', // Asumimos orden descendente para estos listados destacados
-        page: 1, // Volver a la página 1 al aplicar un nuevo orden
+        order: 'desc',
+        page: 1,
     };
-
-   
     if (props.isFavorite) {
-      
         query.favorites = 'true';
     }
-
-    return {
-        path: props.listRoute, // /sitios
-        query: query,
-    };
+    return { path: props.listRoute, query };
 });
 
 const fetchSites = async () => {
-    
     isLoading.value = true;
     error.value = false;
     errorMessage.value = '';
@@ -120,16 +110,82 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.featured-section {
+  margin-bottom: 56px;
+}
 
-.featured-section { margin-bottom: 40px; padding: 10px; }
-.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-.section-header h2 { font-size: 1.8em; color: #444; }
-.btn-ver-todos { text-decoration: none; color: #3f51b5; font-weight: bold; transition: color 0.3s; }
-.btn-ver-todos:hover { color: #ffc107; }
-.site-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-.status-message { padding: 20px; text-align: center; border-radius: 8px; font-size: 1.1em; }
-.loading-pulse { color: #3f51b5; font-style: italic; background-color: #e8eaf6; }
-.error-box { background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
-.empty-box { background-color: #f5f5f5; color: #757575; }
-@media (max-width: 768px) { .site-list { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); } }
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--border, #E5E7EB);
+  position: relative;
+}
+
+.section-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 48px;
+  height: 2px;
+  background-color: var(--color-primary, #0D9488);
+  border-radius: 1px;
+}
+
+.section-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+  margin: 0;
+}
+
+.btn-ver-todos {
+  text-decoration: none;
+  color: var(--color-primary, #0D9488);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+
+.btn-ver-todos:hover {
+  color: var(--color-primary-dark, #0F766E);
+}
+
+.site-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.status-message {
+  padding: 24px;
+  text-align: center;
+  border-radius: var(--radius-md, 12px);
+  font-size: 0.95rem;
+}
+
+.loading-pulse {
+  color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary-light, #CCFBF1);
+  font-style: italic;
+}
+
+.error-box {
+  background-color: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+
+.empty-box {
+  background-color: var(--surface, #F9FAFB);
+  color: var(--text-secondary, #6B7280);
+}
+
+@media (max-width: 768px) {
+  .site-list { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+}
 </style>

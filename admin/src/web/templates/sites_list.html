@@ -254,32 +254,18 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-    table.table thead th,
+    /* Table header text: white on teal background */
+    table.table thead th {
+        color: white !important;
+    }
+    /* Table body cells: dark text on light background */
     table.table tbody td {
-        color: #ffff !important;
+        color: #111827 !important;
     }
-
-    #addFilter label {
-        color: #ffff !important;
-    }
-
+    /* Filter form labels */
+    #addFilter label,
     #addFilter article label {
-        color: #ffff !important;
+        color: #6B7280 !important;
     }
-
-.flash-dark {
-    padding: 12px 18px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    font-weight: 500;
-    color: #fff;
-}
-
-.flash-success { background: #1e7a46; }
-.flash-danger { background: #a82525; }
-.flash-warning { background: #c99a00; color: #000; }
-.flash-info { background: #0ea5e9; color: #000; }
-.flash-neutral { background: #444; }
-
 </style>
 {% endblock %}

@@ -55,78 +55,83 @@ const logout = () => {
 
 <style scoped>
 .profile-container {
-  padding: 20px;
+  padding: 48px 24px 60px;
   max-width: 480px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .profile-header {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 32px;
 }
 
 .profile-avatar {
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #0d055c;
-  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  border: 3px solid var(--color-primary, #0D9488);
+  box-shadow: 0 4px 12px rgba(13,148,136,0.2);
 }
 
 .profile-name {
-  margin-top: 12px;
-  font-size: 1.4rem;
-  color: #212121;
+  margin-top: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
 }
 
 .profile-email {
-  font-size: 0.95rem;
-  color: #666;
+  font-size: 0.92rem;
+  color: var(--text-secondary, #6B7280);
+  margin-top: 4px;
 }
 
 .divider {
-  margin: 20px 0;
+  margin: 24px 0;
   border: none;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border, #E5E7EB);
 }
 
 .profile-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  margin-top: 25px;
+  gap: 12px;
 }
 
 .profile-btn {
-  width: 80%;
-  max-width: 280px;
-  background-color: #071a78;
+  width: 100%;
+  max-width: 300px;
+  background-color: var(--color-primary, #0D9488);
   color: white;
-  padding: 14px 20px;
-  font-size: 1.05rem;
-  border-radius: 12px;
+  padding: 13px 20px;
+  font-size: 0.97rem;
+  border-radius: var(--radius-md, 12px);
   border: none;
   cursor: pointer;
   text-align: center;
-  font-weight: 500;
-  transition: 0.25s ease;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
 }
 
 .profile-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  background-color: #0056b3;
-
+  box-shadow: var(--shadow-md);
+  background-color: var(--color-primary-dark, #0F766E);
 }
 
 .logout-btn {
-  background-color: #8f0303;
+  background-color: transparent;
+  color: var(--danger, #EF4444);
+  border: 1px solid var(--danger, #EF4444);
 }
 
 .logout-btn:hover {
-  background-color: #d40000;
+  background-color: #FEF2F2;
+  box-shadow: none;
 }
 </style>

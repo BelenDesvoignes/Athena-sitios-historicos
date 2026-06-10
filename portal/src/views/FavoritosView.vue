@@ -2,8 +2,8 @@
   <div class="favoritos-page">
     <BackButton />
     <header class="page-header">
-      <h1>❤️ Mis Sitios Favoritos</h1>
-      <p class="subtitle">Aquí encontrarás todos los lugares que has marcado como preferidos.</p>
+      <h1>Mis Sitios Favoritos</h1>
+      <p class="subtitle">Los lugares que has marcado como preferidos.</p>
     </header>
 
     <main class="favoritos-main">
@@ -103,73 +103,82 @@ onMounted(() => {
 
 <style scoped>
 .favoritos-page {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 40px 24px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .page-header {
-    text-align: center;
-    margin-bottom: 40px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 40px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border, #E5E7EB);
+  position: relative;
 }
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 48px;
+  height: 2px;
+  background-color: var(--color-primary, #0D9488);
+}
+
 .page-header h1 {
-    color: #3f51b5;
-    font-size: 2.2em;
-    margin-bottom: 5px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary, #111827);
+  margin-bottom: 6px;
 }
+
 .subtitle {
-    color: #666;
-    font-size: 1.1em;
+  color: var(--text-secondary, #6B7280);
+  font-size: 1rem;
 }
 
 .list-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px 0;
-}
-
-@media (min-width: 768px) {
-    .list-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (min-width: 1024px) {
-    .list-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 8px 0;
 }
 
 .message-box {
-    text-align: center;
-    padding: 30px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-size: 1.1em;
+  text-align: center;
+  padding: 32px;
+  border-radius: var(--radius-md, 12px);
+  margin-top: 16px;
+  font-size: 1rem;
 }
+
 .loading-box {
-    color: #3f51b5;
-    font-weight: bold;
+  color: var(--color-primary, #0D9488);
+  background-color: var(--color-primary-light, #CCFBF1);
+  font-style: italic;
 }
+
 .error-message {
-    background-color: #ffe0e0;
-    color: #cc0000;
-    border: 1px solid #ff9999;
+  background-color: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
 }
+
 .empty-message {
-    background-color: #f7f7f7;
-    color: #555;
-    border: 1px solid #ddd;
+  background-color: var(--surface, #F9FAFB);
+  color: var(--text-secondary, #6B7280);
+  border: 1px solid var(--border, #E5E7EB);
 }
+
 .empty-message p {
-    margin-top: 10px;
-    font-style: italic;
-    color: #888;
+  margin-top: 10px;
+  font-style: italic;
+  color: var(--text-muted, #9CA3AF);
 }
+
 .error-message a {
-    color: #3f51b5;
-    font-weight: bold;
+  color: var(--color-primary, #0D9488);
+  font-weight: bold;
 }
 </style>
