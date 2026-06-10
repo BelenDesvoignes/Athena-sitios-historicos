@@ -96,7 +96,7 @@ const fetchSites = async () => {
     }
     const url = `${API_BASE_URL}/sites?${params.toString()}`;
     try {
-        const response = await fetch(url, { headers });
+        const response = await fetch(url, { headers, cache: 'no-store' });
         if (response.status === 401) {
             throw new Error(`HTTP error! status: 401 - No Autorizado`);
         }

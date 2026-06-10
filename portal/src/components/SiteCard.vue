@@ -1,11 +1,15 @@
 <template>
   <router-link :to="`/sitios/${site.id}`" class="site-card">
     <div class="card-image-container">
-      <img 
-        :src="site.image_url || '/default.jpg'"
-        :alt="site.image_title || site.name" 
+      <img
+        v-if="site.image_url"
+        :src="site.image_url"
+        :alt="site.image_title || site.name"
         class="card-image"
       />
+      <div v-else class="card-image-placeholder">
+        <span>Sin fotografía</span>
+      </div>
     </div>
     <div class="card-body">
       <h3 class="card-title">{{ site.name }}</h3>
@@ -57,8 +61,19 @@ const props = defineProps({
 .card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  object-position: center; 
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 0.9rem;
 }
 
 .tags {

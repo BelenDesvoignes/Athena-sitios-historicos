@@ -204,7 +204,7 @@ const fetchSitesList = async () => {
   }
 
   try {
-    const res = await fetch(`${API_BASE_URL}/sites?${params.toString()}`, { headers })
+    const res = await fetch(`${API_BASE_URL}/sites?${params.toString()}`, { headers, cache: 'no-store' })
 
     if (!res.ok) {
       throw new Error(`Fallo la solicitud del listado. Código: ${res.status}`);
