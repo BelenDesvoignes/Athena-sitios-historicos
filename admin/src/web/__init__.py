@@ -38,14 +38,11 @@ def create_app(env="development", static_folder="../../static"):
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=3600)
     if app.config.get("SESSION_TYPE") == "filesystem":
         Session(app)
-    CORS(app, resources={
-    r"/*": {
-        "origins": allowed_origins,
-        "supports_credentials": True,
-        "allow_headers": ["Content-Type", "Authorization"],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-        }
-    })
+    CORS(app,
+         origins=allowed_origins,
+         supports_credentials=True,
+         allow_headers=["Content-Type", "Authorization"],
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
     JWTManager(app)
 
     db.init_app(app)
