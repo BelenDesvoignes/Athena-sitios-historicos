@@ -335,19 +335,22 @@ def seed_sitios():
 
 def asignar_tags_a_sitios():
     tags = {tag.nombre: tag for tag in db.session.query(Tag).all()}
-
+    if not tags:
+        return
 
     sitio = db.session.query(Sitio).filter_by(nombre="Ruinas de San Ignacio").first()
     if sitio:
-        if tags["Histórico"] not in sitio.tags:
-            sitio.tags.append(tags["Histórico"])
-        if tags["Museo"] not in sitio.tags:
-            sitio.tags.append(tags["Museo"])
-
+        tag_historico = tags.get("Histórico")
+        tag_museo = tags.get("Museo")
+        if tag_historico and tag_historico not in sitio.tags:
+            sitio.tags.append(tag_historico)
+        if tag_museo and tag_museo not in sitio.tags:
+            sitio.tags.append(tag_museo)
 
     sitio = db.session.query(Sitio).filter_by(nombre="Quebrada de Humahuaca").first()
-    if sitio and tags["Natural"] not in sitio.tags:
-        sitio.tags.append(tags["Natural"])
+    tag_natural = tags.get("Natural")
+    if sitio and tag_natural and tag_natural not in sitio.tags:
+        sitio.tags.append(tag_natural)
 
     db.session.commit()
     print("Tags asignados a los sitios existentes.")
