@@ -8,7 +8,6 @@ from src.core.permissions_service import current_user_permissions
 from src.core.seeds import seed_admin_user, seed_feature_flags, seed_roles_permissions, seed_sitios, seed_public_users, seed_reviews, seed_tags, asignar_tags_a_sitios
 
 from src.web.config import config
-from src.web.storage import storage
 from src.web.controllers.auth import auth_bp
 from src.web.controllers.sites_routes import bp_sitios
 from src.web.controllers.tag_routes import tag_bp
@@ -51,26 +50,6 @@ def create_app(env="development", static_folder="../../static"):
 
     db.init_app(app)
 
-    try:
-        minio_server = app.config.get("MINIO_SERVER")
-        access_key = app.config.get("MINIO_ACCESS_KEY")
-        secret_key = app.config.get("MINIO_SECRET_KEY")
-        secure = app.config.get("MINIO_SECURE")
-
-        app.logger.info(f"🔧 Configuración MinIO detectada:")
-        app.logger.info(f"    ➜ Server: {minio_server}")
-        app.logger.info(f"    ➜ Secure: {secure}")
-        app.logger.info(f"    ➜ Access Key: {access_key}" if access_key else "    ➜ Access Key: NO DEFINIDA")
-        app.logger.info(f"    ➜ Secret Key: {secret_key}" if secret_key else "    ➜ Secret Key: NO DEFINIDA")
-    except Exception as e:
-        app.logger.warning(f"⚠️ No se pudieron registrar las credenciales de MinIO: {str(e)}")
-
-    # Inicializar cliente de MinIO (maneja errores internamente)
-
-    try:
-        storage.init_app(app)
-    except Exception as e:
-        app.logger.error(f"❌ Fallo al inicializar MinIO: {str(e)}")
 
 
     with app.app_context():
