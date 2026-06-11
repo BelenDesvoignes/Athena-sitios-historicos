@@ -30,21 +30,33 @@ export const useAuthStore = defineStore('auth', () => {
      * y guarda el estado globalmente.
      */
     const loginWithGoogle = async (googleResponse) => {
-        if (!googleResponse?.credential) {
-            console.error("No se recibió el token de Google.");
-            return false;
-        }
-
         try {
-            
-            const googleJwt = googleResponse.credential;
-            const decoded = jwtDecode(googleJwt);
+            let profile;
 
-            const profile = {
-                name: decoded.name,
-                email: decoded.email,
-                imageUrl: decoded.picture,
-            };
+            if (googleResponse?.credential) {
+                // Credential flow (ID token)
+                const decoded = jwtDecode(googleResponse.credential);
+                profile = {
+                    name: decoded.name,
+                    email: decoded.email,
+                    imageUrl: decoded.picture,
+                };
+            } else if (googleResponse?.access_token) {
+                // Token flow (from googleTokenLogin — avoids popup blocker)
+                const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                    headers: { Authorization: `Bearer ${googleResponse.access_token}` }
+                });
+                if (!userInfoRes.ok) throw new Error('No se pudo obtener info de Google');
+                const userInfo = await userInfoRes.json();
+                profile = {
+                    name: userInfo.name,
+                    email: userInfo.email,
+                    imageUrl: userInfo.picture,
+                };
+            } else {
+                console.error("No se recibió el token de Google.");
+                return false;
+            }
 
            
             const API_URL = import.meta.env.VITE_API_LOGIN_URL;
