@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView, useRouter } from 'vue-router'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useTokenClient } from 'vue3-google-login'
+import { googleSdkLoaded } from 'vue3-google-login'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -16,6 +16,16 @@ const checkScreenSize = () => {
 onMounted(() => {
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
+  googleSdkLoaded((google) => {
+    _tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: '567138964451-npnnabs0o6lc434dgtj0fqp8a904cd35.apps.googleusercontent.com',
+      scope: 'email profile',
+      callback: async (response) => {
+        if (response.error) return
+        await authStore.loginWithGoogle(response)
+      }
+    })
+  })
 });
 
 onBeforeUnmount(() => {
@@ -28,12 +38,9 @@ const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
 
-const { login: googleLogin } = useTokenClient({
-  onSuccess: async (response) => {
-    await authStore.loginWithGoogle(response)
-  },
-  onError: (e) => console.error('Google login error', e)
-})
+let _tokenClient = null
+
+const googleLogin = () => _tokenClient?.requestAccessToken()
 
 const logout = () => {
   const confirmar = window.confirm("¿Estás seguro de que querés cerrar sesión?")

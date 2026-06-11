@@ -260,7 +260,7 @@ import { parseQuery, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import BackButton from "@/components/BackButton.vue";
-import { useTokenClient } from 'vue3-google-login';
+import { googleSdkLoaded } from 'vue3-google-login';
 import "leaflet/dist/leaflet.css";
 
 const reviewsFeatureDisabled = ref(false);
@@ -314,18 +314,9 @@ const perPage = 25;
 const showReviewModal = ref(false);
 const showLoginPromptReseña = ref(false);
 
-const { login: googleLogin } = useTokenClient({
-    onSuccess: async (response) => {
-        const success = await authStore.loginWithGoogle(response);
-        if (success) {
-            showLoginPrompt.value = false;
-            showLoginPromptReseña.value = false;
-        }
-    },
-    onError: (e) => console.error('Google login error', e)
-});
+let _tokenClient = null
 
-const handleModalLogin = () => googleLogin();
+const handleModalLogin = () => _tokenClient?.requestAccessToken()
 const isModalOpen = ref(false);
 const currentIndex = ref(0);
 const imagesList = ref([]);
@@ -813,6 +804,20 @@ const fetchReviews = async () => {
   }
 };
 onMounted(() => {
+  googleSdkLoaded((google) => {
+    _tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: '567138964451-npnnabs0o6lc434dgtj0fqp8a904cd35.apps.googleusercontent.com',
+      scope: 'email profile',
+      callback: async (response) => {
+        if (response.error) return
+        const success = await authStore.loginWithGoogle(response)
+        if (success) {
+          showLoginPrompt.value = false
+          showLoginPromptReseña.value = false
+        }
+      }
+    })
+  })
 
   fetchReviewsFlag();
   if (siteId) {
