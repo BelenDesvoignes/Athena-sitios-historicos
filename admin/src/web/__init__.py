@@ -1,4 +1,5 @@
 import logging
+import os
 from flask import Flask, render_template, session
 from flask_session import Session
 from datetime import timedelta
@@ -36,7 +37,12 @@ def create_app(env="development", static_folder="../../static"):
     app.config.from_object(config[env])
     # carga la configuracion segun el entorno
 
-    allowed_origins = app.config.get("CORS_ORIGINS", [])
+    # CORS_ORIGINS env var always takes precedence over config class
+    cors_env = os.environ.get("CORS_ORIGINS", "")
+    if cors_env.strip():
+        allowed_origins = [o.strip() for o in cors_env.split(",") if o.strip()]
+    else:
+        allowed_origins = app.config.get("CORS_ORIGINS", [])
     print(f"[CORS] origins configured: {allowed_origins}", flush=True)
 
     app.config["JWT_SECRET_KEY"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
