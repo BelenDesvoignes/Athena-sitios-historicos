@@ -1,7 +1,6 @@
 <script setup>
 import { RouterView, useRouter } from 'vue-router'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { googleSdkLoaded } from 'vue3-google-login'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -13,19 +12,11 @@ const checkScreenSize = () => {
   useIconButton.value = window.innerWidth <= 500;
 };
 
+const GOOGLE_CLIENT_ID = '567138964451-npnnabs0o6lc434dgtj0fqp8a904cd35.apps.googleusercontent.com'
+
 onMounted(() => {
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
-  googleSdkLoaded((google) => {
-    _tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: '567138964451-npnnabs0o6lc434dgtj0fqp8a904cd35.apps.googleusercontent.com',
-      scope: 'email profile',
-      callback: async (response) => {
-        if (response.error) return
-        await authStore.loginWithGoogle(response)
-      }
-    })
-  })
 });
 
 onBeforeUnmount(() => {
@@ -38,9 +29,16 @@ const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
 
-let _tokenClient = null
-
-const googleLogin = () => _tokenClient?.requestAccessToken()
+const googleLogin = () => {
+  window.google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: 'email profile',
+    callback: async (response) => {
+      if (response.error) return
+      await authStore.loginWithGoogle(response)
+    }
+  }).requestAccessToken()
+}
 
 const logout = () => {
   const confirmar = window.confirm("¿Estás seguro de que querés cerrar sesión?")
