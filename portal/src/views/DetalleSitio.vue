@@ -260,7 +260,7 @@ import { parseQuery, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import BackButton from "@/components/BackButton.vue";
-import { googleTokenLogin } from 'vue3-google-login';
+import { useTokenClient } from 'vue3-google-login';
 import "leaflet/dist/leaflet.css";
 
 const reviewsFeatureDisabled = ref(false);
@@ -314,18 +314,18 @@ const perPage = 25;
 const showReviewModal = ref(false);
 const showLoginPromptReseña = ref(false);
 
-const handleModalLogin = async () => {
-    try {
-        const response = await googleTokenLogin();
+const { login: googleLogin } = useTokenClient({
+    onSuccess: async (response) => {
         const success = await authStore.loginWithGoogle(response);
         if (success) {
             showLoginPrompt.value = false;
             showLoginPromptReseña.value = false;
         }
-    } catch (e) {
-        console.error('Google login cancelado o fallido', e);
-    }
-};
+    },
+    onError: (e) => console.error('Google login error', e)
+});
+
+const handleModalLogin = () => googleLogin();
 const isModalOpen = ref(false);
 const currentIndex = ref(0);
 const imagesList = ref([]);
