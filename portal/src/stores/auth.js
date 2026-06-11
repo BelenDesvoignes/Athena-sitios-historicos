@@ -42,11 +42,10 @@ export const useAuthStore = defineStore('auth', () => {
                     imageUrl: decoded.picture,
                 };
             } else if (googleResponse?.access_token) {
-                // Token flow (from googleTokenLogin — avoids popup blocker)
                 const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
                     headers: { Authorization: `Bearer ${googleResponse.access_token}` }
-                });
-                if (!userInfoRes.ok) throw new Error('No se pudo obtener info de Google');
+                }).catch(e => { throw new Error(`[Google userinfo] ${e.message}`) });
+                if (!userInfoRes.ok) throw new Error(`[Google userinfo] status ${userInfoRes.status}`);
                 const userInfo = await userInfoRes.json();
                 profile = {
                     name: userInfo.name,
@@ -66,9 +65,9 @@ export const useAuthStore = defineStore('auth', () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: profile.email,
-                    name: profile.name 
+                    name: profile.name
                 }),
-            });
+            }).catch(e => { throw new Error(`[Backend] ${e.message}`) });
 
             if (!res.ok) {
                 
@@ -106,13 +105,7 @@ export const useAuthStore = defineStore('auth', () => {
 
         } catch (error) {
             console.error("🚨 Error al procesar login:", error);
-          
-            if (error.message.includes('Failed to fetch')) {
-                 window.alert('Error de Conexión: No se pudo conectar con el servidor. Revisa la URL y CORS.');
-            } else {
-                 window.alert(`Error al iniciar sesión: ${error.message}`);
-            }
-         
+            window.alert(`Error al iniciar sesión: ${error.message}`);
             logout();
             return false;
         }
