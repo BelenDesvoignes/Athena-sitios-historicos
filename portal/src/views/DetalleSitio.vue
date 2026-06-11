@@ -315,18 +315,15 @@ const showReviewModal = ref(false);
 const showLoginPromptReseña = ref(false);
 
 const handleModalLogin = () => {
-    window.google.accounts.oauth2.initTokenClient({
+    sessionStorage.setItem('authReturnPath', window.location.pathname)
+    const params = new URLSearchParams({
         client_id: GOOGLE_CLIENT_ID,
+        redirect_uri: window.location.origin,
+        response_type: 'token',
         scope: 'email profile',
-        callback: async (response) => {
-            if (response.error) return
-            const success = await authStore.loginWithGoogle(response)
-            if (success) {
-                showLoginPrompt.value = false
-                showLoginPromptReseña.value = false
-            }
-        }
-    }).requestAccessToken()
+        prompt: 'select_account',
+    })
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
 }
 const isModalOpen = ref(false);
 const currentIndex = ref(0);

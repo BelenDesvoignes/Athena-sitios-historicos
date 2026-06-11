@@ -14,9 +14,23 @@ const checkScreenSize = () => {
 
 const GOOGLE_CLIENT_ID = '567138964451-npnnabs0o6lc434dgtj0fqp8a904cd35.apps.googleusercontent.com'
 
-onMounted(() => {
+onMounted(async () => {
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
+
+  // Handle Google OAuth redirect callback
+  const hash = window.location.hash.substring(1)
+  if (hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash)
+    const accessToken = params.get('access_token')
+    if (accessToken) {
+      history.replaceState(null, '', window.location.pathname)
+      await authStore.loginWithGoogle({ access_token: accessToken })
+      const returnPath = sessionStorage.getItem('authReturnPath')
+      sessionStorage.removeItem('authReturnPath')
+      if (returnPath) router.replace(returnPath)
+    }
+  }
 });
 
 onBeforeUnmount(() => {
@@ -30,14 +44,15 @@ const toggleMenu = () => {
 }
 
 const googleLogin = () => {
-  window.google.accounts.oauth2.initTokenClient({
+  sessionStorage.setItem('authReturnPath', router.currentRoute.value.fullPath)
+  const params = new URLSearchParams({
     client_id: GOOGLE_CLIENT_ID,
+    redirect_uri: window.location.origin,
+    response_type: 'token',
     scope: 'email profile',
-    callback: async (response) => {
-      if (response.error) return
-      await authStore.loginWithGoogle(response)
-    }
-  }).requestAccessToken()
+    prompt: 'select_account',
+  })
+  window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`
 }
 
 const logout = () => {
