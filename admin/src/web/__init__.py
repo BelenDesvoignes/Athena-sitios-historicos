@@ -37,21 +37,13 @@ def create_app(env="development", static_folder="../../static"):
     app.config.from_object(config[env])
     # carga la configuracion segun el entorno
 
-    # CORS_ORIGINS env var always takes precedence over config class
-    cors_env = os.environ.get("CORS_ORIGINS", "")
-    if cors_env.strip():
-        allowed_origins = [o.strip() for o in cors_env.split(",") if o.strip()]
-    else:
-        allowed_origins = app.config.get("CORS_ORIGINS", [])
-    print(f"[CORS] origins configured: {allowed_origins}", flush=True)
-
     app.config["JWT_SECRET_KEY"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=3600)
     if app.config.get("SESSION_TYPE") == "filesystem":
         Session(app)
     CORS(app,
-         origins=allowed_origins if allowed_origins else "*",
+         origins="*",
          allow_headers=["Content-Type", "Authorization"],
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
     JWTManager(app)
