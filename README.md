@@ -14,7 +14,7 @@ A full-stack web system for managing and exploring Argentina's historical herita
 | **Backend** | Python 3.12, Flask, SQLAlchemy, Flask-JWT-Extended, Flask-CORS |
 | **Database** | PostgreSQL 16 + PostGIS |
 | **Auth** | Google OAuth 2.0 (public users), session-based (admin) |
-| **Infrastructure** | Railway (backend API), Vercel (frontend) |
+| **Infrastructure** | Railway (backend API), Vercel (frontend), Supabase (database + object storage) |
 
 ---
 
@@ -29,7 +29,7 @@ A full-stack web system for managing and exploring Argentina's historical herita
 
 ### Admin Panel
 - Role-based access control: System Admin → Admin → Editor → Public User
-- Full CRUD for historical sites, including image upload to MinIO / S3
+- Full CRUD for historical sites, including image upload to Supabase Storage
 - Review moderation queue
 - User management with granular permission assignment
 - Feature flags: maintenance mode (portal + admin), review gating
@@ -60,7 +60,7 @@ Feature flags stored in the database control portal and admin maintenance modes 
 ### Prerequisites
 
 - PostgreSQL 16 with PostGIS — `localhost:5432`, database `grupo19`, user `postgres`, password `admin`
-- MinIO (optional, for image uploads) — `localhost:9000`, access key `grupo19admin`, secret `grupo19secret`, bucket `grupo19`
+- MinIO (optional, for local image uploads) — `localhost:9000`, access key `grupo19admin`, secret `grupo19secret`, bucket `grupo19`. In production, Supabase Storage is used instead.
 - A Google OAuth 2.0 Client ID — add `http://localhost:5173` as an Authorized JavaScript Origin and Authorized Redirect URI in [Google Cloud Console](https://console.cloud.google.com)
 
 ### Backend
@@ -100,7 +100,11 @@ npm run dev
 | `VITE_API_BASE_URL` | Vercel env vars | `https://athena-admin-production-b23c.up.railway.app/api` |
 | `VITE_API_LOGIN_URL` | Vercel env vars | `https://athena-admin-production-b23c.up.railway.app/api/public_users/login` |
 | `FLASK_ENV` | Railway env vars | `production` |
-| `DATABASE_URL` | Railway env vars | PostgreSQL connection string (set by Railway) |
+| `DATABASE_URL` | Railway env vars | Supabase PostgreSQL connection string |
+| `STORAGE_ENDPOINT_URL` | Railway env vars | Supabase Storage S3 endpoint |
+| `STORAGE_ACCESS_KEY` | Railway env vars | Supabase Storage access key |
+| `STORAGE_SECRET_KEY` | Railway env vars | Supabase Storage secret key |
+| `STORAGE_BUCKET` | Railway env vars | `grupo19` |
 
 ---
 
